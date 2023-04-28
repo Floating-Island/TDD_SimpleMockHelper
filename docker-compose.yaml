@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  jenkins:
+    build: .
+    image: tdd_simplemockhelper
+    container_name: tdd_simplemockhelper_container
+    ports: 
+        - "127.0.0.1:8080:8080"
+        - "50000:50000"
+    volumes:
+        - type: bind
+          source: ./
+          target: /usr/src/app
+          read_only: true
