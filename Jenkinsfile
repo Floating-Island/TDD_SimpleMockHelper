@@ -24,7 +24,7 @@ pipeline {
         stage ('Linux test') {
             steps {
                 script {
-                    def statusCode = sh 'bash test_with_ctest_linux.sh'
+                    def statusCode = sh script: '''./test_with_ctest_linux.sh''', returnStatus: true
                     switch (statusCode) {
                         case 0:
                         break
