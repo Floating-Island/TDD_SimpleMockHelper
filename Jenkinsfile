@@ -2,6 +2,18 @@ pipeline {
     agent any
 
     stages {
+        stage('Preparation'){
+            steps {
+                echo 'Cleaning up workspace:'
+                echo '-Checking current workspace:'
+                sh 'ls'
+                sh 'git reset --hard'//resets to HEAD, to the commit in the cloned repository.
+                sh 'git clean -dffx .'//removes untracked files.
+                echo '-checking clean workspace:'
+                sh 'ls'
+            }
+        }
+
         stage('Build') {
             parallel {
                 stage('Build for Linux') {
@@ -44,14 +56,6 @@ pipeline {
         always {
             echo 'Publishing JUnit test report'
             junit 'junit_report.xml'
-
-            echo 'Cleaning up workspace:'
-            echo '-Checking current workspace:'
-            sh 'ls'
-            sh 'git reset --hard'//resets to HEAD, to the commit in the cloned repository.
-            sh 'git clean -dffx .'//removes untracked files.
-            echo '-checking clean workspace:'
-            sh 'ls'
         }
     }
 }
