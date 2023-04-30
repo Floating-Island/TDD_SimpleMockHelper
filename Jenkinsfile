@@ -38,16 +38,6 @@ pipeline {
             steps {
                 script {
                     sh 'bash test_with_ctest_linux.sh'
-                    // switch (statusCode) {
-                    //     case 0:
-                    //     break
-                    //     case 1:
-                    //     unstable ('Some tests failed. Setting stage and build as Unstable...')
-                    //     break
-                    //     default:
-                    //         error("Error: tests returned with status code ${statusCode}")
-                    //     break
-                    // }
                 }
             }
         }
