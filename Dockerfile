@@ -1,12 +1,14 @@
 # Get the Official Jenkins Docker Image
 FROM jenkins/jenkins:lts-jdk11
-ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false
-# allow local checkout in git scm to be able to see local repository
-ENV JAVA_OPTS -Dhudson.plugins.git.GitSCM.ALLOW_LOCAL_CHECKOUT=true
 
-ARG CMAKE_VERSION=3.26.3
+ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false \
+# allow local checkout in git scm to be able to see local repository
+  -Dhudson.plugins.git.GitSCM.ALLOW_LOCAL_CHECKOUT=true \
+# allows notifyCommit with unauthenticated requests
+  -Dhudson.plugins.git.GitStatus.NOTIFY_COMMIT_ACCESS_CONTROL=disabled-for-polling
 
 USER root
+ARG CMAKE_VERSION=3.26.3
 # install packages (including recommended) and dependencies
 RUN apt-get update && apt-get -y install \
     build-essential \
@@ -26,10 +28,8 @@ RUN apt-get update && apt-get -y install \
       && rm /tmp/cmake-install.sh \
       && ln -s /opt/cmake-${CMAKE_VERSION}/bin/* /usr/local/bin
 
-
-
-
 USER jenkins
+
 # install jenkins plugins
 COPY --chown=jenkins:jenkins plugins.txt /usr/share/jenkins/ref/plugins.txt
 RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt
