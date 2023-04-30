@@ -16,6 +16,7 @@ pipeline {
                         echo 'Starting compilation for windows platform\n'
                         sh 'bash build_with_cmake_windows.sh'
                         echo '\n Finished compilation for windows platform\n'
+                        
                     }
                 }
             }
@@ -24,7 +25,7 @@ pipeline {
         stage ('Linux test') {
             steps {
                 script {
-                    def statusCode = sh script: '''test_with_ctest_linux.sh''', returnStatus: true
+                    sh 'bash test_with_ctest_linux.sh'
                     // switch (statusCode) {
                     //     case 0:
                     //     break
