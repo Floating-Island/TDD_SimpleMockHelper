@@ -28,9 +28,9 @@ RUN dpkg --add-architecture i386 \
     wine \
     xvfb \
     # remove cache packages
-    && rm -fr /var/lib/apt/lists/*
+    && rm -fr /var/lib/apt/lists/* \
     # install specific cmake version
-    RUN wget ${CMAKELINK}${CMAKELINUXFILE} -q -O /tmp/cmake-install.sh \
+    && wget ${CMAKELINK}${CMAKELINUXFILE} -q -O /tmp/cmake-install.sh \
       && chmod u+x /tmp/cmake-install.sh \
       && mkdir /opt/cmake-${CMAKE_VERSION} \
       && /tmp/cmake-install.sh --skip-license --prefix=/opt/cmake-${CMAKE_VERSION} \
@@ -42,10 +42,10 @@ RUN dpkg --add-architecture i386 \
     && chmod +x winetricks \
     # move it to binaries
     && mv winetricks /usr/bin/winetricks \
-    # create directory for wineprefix and set ownership to jenkins
+    # create directory for wineprefix and set ownership to jenkins user
     && mkdir -p -m 771 usr/wine \
     && chown jenkins:jenkins usr/wine \
-    # steps to install cmake in wine
+    # steps to download cmake in wine
     && export WINEARCH=win64 \
     && wget ${CMAKELINK}${CMAKEWINDOWSFILE}
 
@@ -56,6 +56,7 @@ COPY --chown=jenkins:jenkins plugins.txt /usr/share/jenkins/ref/plugins.txt
 RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt \
   # set wine default version as Windows 10
   && WINEPREFIX=/usr/wine/.wine xvfb-run -a winetricks -q win10 \
+  # install cmake in wine
   && WINEPREFIX=/usr/wine/.wine xvfb-run -a wine msiexec -i ${CMAKEWINDOWSFILE} -q
 
 # 'create' the unstable app pipeline job by copying its config
