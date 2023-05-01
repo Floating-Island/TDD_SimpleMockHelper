@@ -19,12 +19,14 @@ ARG CMAKEWINDOWSFILE=${CMAKEFILEPREFIX}-windows-x86_64.msi
 RUN dpkg --add-architecture i386 \
 # install packages (including recommended) and dependencies
     && apt-get update && apt-get -y install \
-    build-essential \
     wget \
+    make \
     gcc \
     g++ \
     mingw-w64 \
+    # packages for wine
     python3 \
+    protobuf-compiler \
     wine \
     xvfb \
     # remove cache packages
