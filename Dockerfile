@@ -45,8 +45,9 @@ RUN dpkg --add-architecture i386 \
     # create directory for wineprefix and set ownership to jenkins user
     && mkdir -p -m 771 usr/wine \
     && chown jenkins:jenkins usr/wine \
-    # steps to download cmake in wine
+    # set wine architecture
     && export WINEARCH=win64 \
+    # download cmake for windows
     && wget ${CMAKELINK}${CMAKEWINDOWSFILE}
 
 USER jenkins

@@ -9,7 +9,7 @@ pipeline {
                 sh 'ls'
                 sh 'git reset --hard'//resets to HEAD, to the commit in the cloned repository.
                 sh 'git clean -dffx .'//removes untracked files.
-                echo '-checking clean workspace:'
+                echo '-Checking clean workspace:'
                 sh 'ls'
             }
         }
@@ -39,14 +39,18 @@ pipeline {
                 stage ('Linux test') {
                     steps {
                         script {
+                            echo 'Starting testing for linux platform\n'
                             sh 'bash test_with_ctest_linux.sh'
+                            echo '\n Finished testing for windows platform\n'
                         }
                     }
                 }
                 stage ('Windows test') {
                     steps {
                         script {
+                            echo 'Starting testing for windows platform\n'
                             sh 'bash test_with_ctest_windows.sh'
+                            echo '\n Finished testing for windows platform\n'
                         }
                     }
                 }
