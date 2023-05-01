@@ -56,7 +56,7 @@ COPY --chown=jenkins:jenkins plugins.txt /usr/share/jenkins/ref/plugins.txt
 RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt \
   # set wine default version as Windows 10
   && WINEPREFIX=/usr/wine/.wine xvfb-run -a winetricks -q win10 \
-  && WINEPREFIX=/usr/wine/.wine xvfb-run -a wine msiexec -i ${CMAKEWINDOWSFILE} -q ADD_CMAKE_TO_PATH=System
+  && WINEPREFIX=/usr/wine/.wine xvfb-run -a wine msiexec -i ${CMAKEWINDOWSFILE} ADD_CMAKE_TO_PATH=System -q
 
 # 'create' the unstable app pipeline job by copying its config
 COPY /tdd_simplemockhelper_job.xml /usr/share/jenkins/ref/jobs/tdd_simplemockhelper_job/config.xml

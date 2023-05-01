@@ -1,4 +1,4 @@
 #!/usr/bin/bash
 
 cd builds/windows
-WINEPREFIX=/usr/wine/.wine xvfb-run -a wine cmake ctest_test --progress --output-junit ../../junit_report.xml
+WINEPREFIX=/usr/wine/.wine xvfb-run -a wine C:\Program/ Files\CMake\bin\ctest.exe --progress --output-junit ../../junit_report.xml
