@@ -34,10 +34,21 @@ pipeline {
             }
         }
 
-        stage ('Linux test') {
-            steps {
-                script {
-                    sh 'bash test_with_ctest_linux.sh'
+        stage('Test'){
+            parallel {
+                stage ('Linux test') {
+                    steps {
+                        script {
+                            sh 'bash test_with_ctest_linux.sh'
+                        }
+                    }
+                }
+                stage ('Windows test') {
+                    steps {
+                        script {
+                            sh 'bash test_with_ctest_windows.sh'
+                        }
+                    }
                 }
             }
         }
