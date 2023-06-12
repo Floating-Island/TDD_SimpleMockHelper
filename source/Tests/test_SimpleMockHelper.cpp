@@ -113,6 +113,8 @@ TEST_P(MultiplicationTest, MultiplicationReturnsProduct)
     int multiplicand = std::get<1>(GetParam());
     int expectedProduct = std::get<2>(GetParam());
 
+    ClassName something = ClassName();
+
     std::cout << "execute OriginalMethod on something (out of shared pointer scope, so not mocked): " << something.OriginalMethod() << std::endl;
     
     {    
