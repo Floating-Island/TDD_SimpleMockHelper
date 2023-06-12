@@ -112,5 +112,36 @@ TEST_P(MultiplicationTest, MultiplicationReturnsProduct)
     int multiplier = std::get<0>(GetParam());
     int multiplicand = std::get<1>(GetParam());
     int expectedProduct = std::get<2>(GetParam());
+
+    std::cout << "execute OriginalMethod on something (out of shared pointer scope, so not mocked): " << something.OriginalMethod() << std::endl;
+    
+    {    
+        std::cout << "GlobalMockHelper status: " << ((MockedGlobal::GlobalMockHelper.use_count() == 0) ? "expired" : "still in use") << std::endl;
+        
+        std::cout << "execute OriginalOutput on something (global mock should be expired): " << something.OriginalOutput() << std::endl;
+        
+        std::cout << "setting new GlobalMockHelper..." << std::endl;
+        
+        std::shared_ptr<SimpleMockHelper> aGlobalMockerHelper = std::make_shared<SimpleMockHelper>();
+        
+        std::function<std::string()> lambdaHolder2 = std::function<std::string()> ([]() -> std::string {return std::string("the mocked output!");});
+        
+        FunctionHolder<std::string()> MockedMethodHolder2 = FunctionHolder<std::string()>(lambdaHolder2);
+        
+        aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameOriginalOutput, &MockedMethodHolder2);
+        
+        SimpleMockHelperInterface::SetGlobalMockHelper(aGlobalMockerHelper);
+        
+        std::cout << "execute OriginalOutput on something (global mock should be in use now): " << something.OriginalOutput() << std::endl;
+        
+        std::cout << "GlobalMockHelper status: " << ((MockedGlobal::GlobalMockHelper.use_count() == 0) ? "expired" : "still in use") << std::endl;
+    }
+
+    std::cout << "GlobalMockHelper status (out of shared pointer scope): " << ((MockedGlobal::GlobalMockHelper.use_count() == 0) ? "expired" : "still in use") << std::endl;
+
+    std::cout << "execute OriginalOutput on something (global mock should be expired): " << something.OriginalOutput() << std::endl;
+
+
+
     EXPECT_TRUE(expectedProduct == expectedProduct);
 }
