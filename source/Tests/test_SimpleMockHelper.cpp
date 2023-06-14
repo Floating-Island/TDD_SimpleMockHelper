@@ -52,7 +52,7 @@ class InterfaceImplementationTest : public ::testing::Test
 };
 
 
-TEST_F(InterfaceImplementationTest)
+TEST(InterfaceImplementationTest)
 {
     ClassName something = ClassName();
 
@@ -81,7 +81,7 @@ class GlobalMockerTest : public ::testing::Test
 
 };
 
-TEST_F(GlobalMockerTest)
+TEST(GlobalMockerTest)
 {
     ClassName something = ClassName();
 
