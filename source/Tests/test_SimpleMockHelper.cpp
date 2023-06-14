@@ -45,12 +45,6 @@ public:
 
 //implement inteface
 
-class InterfaceImplementationTest : public ::testing::Test
-{
-
-};
-
-
 TEST(InterfaceImplementationTest, CheckOriginalMethodMock)
 {
     ClassName something = ClassName();
@@ -75,11 +69,6 @@ TEST(InterfaceImplementationTest, CheckOriginalMethodMock)
 }
 
 //global mock
-
-class GlobalMockerTest : public ::testing::Test
-{
-
-};
 
 TEST(GlobalMockerTest, CheckOriginalOutputMock)
 {
