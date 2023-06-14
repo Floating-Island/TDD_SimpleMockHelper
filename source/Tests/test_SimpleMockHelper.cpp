@@ -52,7 +52,7 @@ class InterfaceImplementationTest : public ::testing::Test
 };
 
 
-TEST(InterfaceImplementationTest)
+TEST(InterfaceImplementationTest, CheckOriginalMethodMock)
 {
     ClassName something = ClassName();
 
@@ -81,7 +81,7 @@ class GlobalMockerTest : public ::testing::Test
 
 };
 
-TEST(GlobalMockerTest)
+TEST(GlobalMockerTest, CheckOriginalOutputMock)
 {
     ClassName something = ClassName();
 
