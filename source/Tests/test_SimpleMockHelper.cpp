@@ -8,7 +8,6 @@
 
 class ClassName : public SimpleMockHelperInterface
 {
-    
 public:
     std::string methodName(){
         return std::string(__func__);
@@ -34,8 +33,7 @@ public:
     {
         SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(std::string, MockedMethodNames::ClassNameOriginalOutput)
         return "the original output";
-    }
-    
+    }  
 };
 
 
@@ -49,7 +47,7 @@ public:
 
 class InterfaceImplementationTest : public ::testing::Test
 {
-    
+
 };
 
 
@@ -73,7 +71,7 @@ TEST(InterfaceImplementationTest, CheckOriginalMethodMock)
 
     std::cout << "execute OriginalMethod on something (supposedly mocked): " << something.OriginalMethod() << std::endl;
 
-    EXPECT_TRUE(omething.OriginalMethod() == )std::string("templated method!");
+    EXPECT_TRUE(something.OriginalMethod() == std::string("templated method!"))
 }
 
 //global mock
@@ -117,5 +115,5 @@ TEST(GlobalMockerTest, CheckOriginalOutputMock)
 
     std::cout << "execute OriginalOutput on something (global mock should be expired): " << something.OriginalOutput() << std::endl;
 
-    EXPECT_TRUE(something.OriginalOutput() == std::string("the original output"));
+    EXPECT_TRUE(something.OriginalOutput() == std::string("the original output"))
 }
