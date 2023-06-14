@@ -48,7 +48,8 @@ public:
 //implement inteface
 
 class InterfaceImplementationTest : public ::testing::Test
-
+{
+    
 };
 
 
@@ -78,6 +79,7 @@ TEST(InterfaceImplementationTest, CheckOriginalMethodMock)
 //global mock
 
 class GlobalMockerTest : public ::testing::Test
+{
 
 };
 
