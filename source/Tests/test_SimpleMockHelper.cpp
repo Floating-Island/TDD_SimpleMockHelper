@@ -45,24 +45,14 @@ public:
 
 
 
-//add
+//implement inteface
 
-class AdditionTest : public testing::TestWithParam<std::tuple<int, int, int>>
-{
-    //int   , int   , int
-    //augend, addend, expectedSum
+class InterfaceImplementationTest : public ::testing::Test
+
 };
 
-INSTANTIATE_TEST_SUITE_P(
-    ParametrizedAdditionTestGroup,
-    AdditionTest,
-    ::testing::Values(
-        std::make_tuple(6, 4, 10),
-        std::make_tuple(-2, 3, 1),
-        std::make_tuple(9, -17, -8),
-        std::make_tuple(23, 24, 47)));
 
-TEST_P(AdditionTest, AdditionReturnsSum)
+TEST_F(InterfaceImplementationTest)
 {
     ClassName something = ClassName();
 
@@ -82,37 +72,17 @@ TEST_P(AdditionTest, AdditionReturnsSum)
 
     std::cout << "execute OriginalMethod on something (supposedly mocked): " << something.OriginalMethod() << std::endl;
 
-
-
-    int augend = std::get<0>(GetParam());
-    int addend = std::get<1>(GetParam());
-    int expectedSum = std::get<2>(GetParam());
-    EXPECT_TRUE(expectedSum == expectedSum);
+    EXPECT_TRUE(omething.OriginalMethod() == )std::string("templated method!");
 }
 
-//mul
+//global mock
 
-class MultiplicationTest : public testing::TestWithParam<std::tuple<int, int, int>>
-{
-    //int   , int   , int
-    //multiplier, multiplicand, expectedProduct
+class GlobalMockerTest : public ::testing::Test
+
 };
 
-INSTANTIATE_TEST_SUITE_P(
-    ParametrizedMultiplicationTestGroup,
-    MultiplicationTest,
-    ::testing::Values(
-        std::make_tuple(8, 8, 64),
-        std::make_tuple(-2, 3, -6),
-        std::make_tuple(2, 4, 8),
-        std::make_tuple(3, 7, 21)));
-
-TEST_P(MultiplicationTest, MultiplicationReturnsProduct)
+TEST_F(GlobalMockerTest)
 {
-    int multiplier = std::get<0>(GetParam());
-    int multiplicand = std::get<1>(GetParam());
-    int expectedProduct = std::get<2>(GetParam());
-
     ClassName something = ClassName();
 
     std::cout << "execute OriginalMethod on something (out of shared pointer scope, so not mocked): " << something.OriginalMethod() << std::endl;
@@ -137,13 +107,13 @@ TEST_P(MultiplicationTest, MultiplicationReturnsProduct)
         std::cout << "execute OriginalOutput on something (global mock should be in use now): " << something.OriginalOutput() << std::endl;
         
         std::cout << "GlobalMockHelper status: " << ((MockedGlobal::GlobalMockHelper.use_count() == 0) ? "expired" : "still in use") << std::endl;
+
+        EXPECT_TRUE(something.OriginalOutput() == std::string("the mocked output!"));
     }
 
     std::cout << "GlobalMockHelper status (out of shared pointer scope): " << ((MockedGlobal::GlobalMockHelper.use_count() == 0) ? "expired" : "still in use") << std::endl;
 
     std::cout << "execute OriginalOutput on something (global mock should be expired): " << something.OriginalOutput() << std::endl;
 
-
-
-    EXPECT_TRUE(expectedProduct == expectedProduct);
+    EXPECT_TRUE(something.OriginalOutput() == std::string("the original output"));
 }
