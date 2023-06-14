@@ -65,7 +65,7 @@ TEST(InterfaceImplementationTest, CheckOriginalMethodMock)
 
     std::cout << "execute OriginalMethod on something (supposedly mocked): " << something.OriginalMethod() << std::endl;
 
-    EXPECT_TRUE(something.OriginalMethod() == std::string("templated method!"))
+    EXPECT_TRUE(something.OriginalMethod() == std::string("templated method!"));
 }
 
 //global mock
@@ -104,5 +104,5 @@ TEST(GlobalMockerTest, CheckOriginalOutputMock)
 
     std::cout << "execute OriginalOutput on something (global mock should be expired): " << something.OriginalOutput() << std::endl;
 
-    EXPECT_TRUE(something.OriginalOutput() == std::string("the original output"))
+    EXPECT_TRUE(something.OriginalOutput() == std::string("the original output"));
 }
