@@ -161,7 +161,7 @@ TEST(GlobalMockerDifferentSignaturesSecondTryTest, CheckOriginalOutputMock)
     
     FunctionHolder<int(std::string, int)> MockedTreeBranchHolder = FunctionHolder<int(std::string, int)>(MockedTreeBranchFunction);
     
-    aGlobalMockerHelper->RegisterMock(MockedMethodNames::TreeBranch, &MockedTreeBranchHolder);
+    aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameTreeBranch, &MockedTreeBranchHolder);
 
     EXPECT_TRUE(something.TreeBranch("RockyLeaf", 3) == -1);
 
@@ -170,7 +170,7 @@ TEST(GlobalMockerDifferentSignaturesSecondTryTest, CheckOriginalOutputMock)
     
     FunctionHolder<std::string(int)> MockedBranchNamesHolder = FunctionHolder<std::string(int)>(MockedBranchNamesFunction);
     
-    aGlobalMockerHelper->RegisterMock(MockedMethodNames::BranchNamesHolder, &MockedBranchNamesHolder);
+    aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameBranchNames, &MockedBranchNamesHolder);
 
     EXPECT_TRUE(something.BranchNames(2) == "AnotherBranchName");
 }
