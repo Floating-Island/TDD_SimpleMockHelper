@@ -148,9 +148,9 @@ TEST(GlobalMockerDifferentSignaturesTest, CheckOriginalOutputMock)
 
 
 
-        std::function<int> lambdaHolder3 = std::function<int> ([]() -> int {return 2;});
+        std::function<int()> lambdaHolder3 = std::function<int()> ([]() -> int {return 2;});
         
-        FunctionHolder<int> MockedMethodHolder3 = FunctionHolder<int>(lambdaHolder3);
+        FunctionHolder<int()> MockedMethodHolder3 = FunctionHolder<int()>(lambdaHolder3);
         
         aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameReturnsZero, &MockedMethodHolder3);
         
