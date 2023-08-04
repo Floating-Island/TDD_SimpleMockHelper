@@ -39,6 +39,18 @@ public:
     {
         SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(int, MockedMethodNames::ClassNameReturnsZero)
         return 0;
+    }
+
+    int TreeBranch(std::string name, int leaf)
+    {
+        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(int, MockedMethodNames::TreeBranch)
+        return 0;
+    }
+
+    std::string BranchNames(int leaf)
+    {
+        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(int, MockedMethodNames::BranchNames)
+        return "A Branch Name";
     }  
 };
 
@@ -60,14 +72,13 @@ TEST(InterfaceImplementationTest, CheckOriginalMethodMock)
     std::cout << "setting MockHelperInstance in something..." << std::endl;
 
     std::shared_ptr<SimpleMockHelper> aMockerHelper = std::make_shared<SimpleMockHelper>();
-
-    std::function<std::string()> lambdaHolder = std::function<std::string()> ([]() -> std::string {return std::string("templated method!");});
-
-    FunctionHolder<std::string()> MockedMethodHolder = FunctionHolder<std::string()>(lambdaHolder);
-
-    aMockerHelper->RegisterMock(MockedMethodNames::ClassNameOriginalMethod, &MockedMethodHolder);
-
     something.SetMockHelper(aMockerHelper);
+
+    std::function<std::string()> MockedOriginalMethodFunction = std::function<std::string()> ([]() -> std::string {return std::string("templated method!");});
+
+    FunctionHolder<std::string()> MockedOriginalMethodHolder = FunctionHolder<std::string()>(MockedOriginalMethodFunction);
+
+    aMockerHelper->RegisterMock(MockedMethodNames::ClassNameOriginalMethod, &MockedOriginalMethodHolder);
 
     std::cout << "execute OriginalMethod on something (supposedly mocked): " << something.OriginalMethod() << std::endl;
 
@@ -90,14 +101,13 @@ TEST(GlobalMockerTest, CheckOriginalOutputMock)
         std::cout << "setting new GlobalMockHelper..." << std::endl;
         
         std::shared_ptr<SimpleMockHelper> aGlobalMockerHelper = std::make_shared<SimpleMockHelper>();
-        
-        std::function<std::string()> lambdaHolder2 = std::function<std::string()> ([]() -> std::string {return std::string("the mocked output!");});
-        
-        FunctionHolder<std::string()> MockedMethodHolder2 = FunctionHolder<std::string()>(lambdaHolder2);
-        
-        aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameOriginalOutput, &MockedMethodHolder2);
-        
         SimpleMockHelperInterface::SetGlobalMockHelper(aGlobalMockerHelper);
+        
+        std::function<std::string()> MockedOriginalMethodFunction = std::function<std::string()> ([]() -> std::string {return std::string("the mocked output!");});
+        
+        FunctionHolder<std::string()> MockedOriginalMethodHolder = FunctionHolder<std::string()>(MockedOriginalMethodFunction);
+        
+        aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameOriginalOutput, &MockedOriginalMethodHolder);
         
         std::cout << "execute OriginalOutput on something (global mock should be in use now): " << something.OriginalOutput() << std::endl;
         
@@ -113,58 +123,54 @@ TEST(GlobalMockerTest, CheckOriginalOutputMock)
     EXPECT_TRUE(something.OriginalOutput() == std::string("the original output"));
 }
 
-//global mock
-
 TEST(GlobalMockerDifferentSignaturesTest, CheckOriginalOutputMock)
 {
     ClassName something = ClassName();
 
-    std::cout << "execute OriginalMethod on something (out of shared pointer scope, so not mocked): " << something.OriginalMethod() << std::endl;
+    std::shared_ptr<SimpleMockHelper> aGlobalMockerHelper = std::make_shared<SimpleMockHelper>();
+    SimpleMockHelperInterface::SetGlobalMockHelper(aGlobalMockerHelper);
     
-    {    
-        std::cout << "GlobalMockHelper status: " << ((MockedGlobal::GlobalMockHelper.use_count() == 0) ? "expired" : "still in use") << std::endl;
-        
-        std::cout << "execute OriginalOutput on something (global mock should be expired): " << something.OriginalOutput() << std::endl;
-        
-        std::cout << "setting new GlobalMockHelper..." << std::endl;
-        
-        std::shared_ptr<SimpleMockHelper> aGlobalMockerHelper = std::make_shared<SimpleMockHelper>();
-        SimpleMockHelperInterface::SetGlobalMockHelper(aGlobalMockerHelper);
-        
 
-        std::function<std::string()> lambdaHolder2 = std::function<std::string()> ([]() -> std::string {return std::string("the mocked output!");});
-        
-        FunctionHolder<std::string()> MockedMethodHolder2 = FunctionHolder<std::string()>(lambdaHolder2);
-        
-        aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameOriginalOutput, &MockedMethodHolder2);
-        
-        
-        std::cout << "execute OriginalOutput on something (global mock should be in use now): " << something.OriginalOutput() << std::endl;
-        
-        std::cout << "GlobalMockHelper status: " << ((MockedGlobal::GlobalMockHelper.use_count() == 0) ? "expired" : "still in use") << std::endl;
+    std::function<std::string()> MockedOriginalOutputFunction = std::function<std::string()> ([]() -> std::string {return std::string("the mocked output!");});
+    
+    FunctionHolder<std::string()> MockedOriginalOutputHolder = FunctionHolder<std::string()>(MockedOriginalOutputFunction);
+    
+    aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameOriginalOutput, &MockedOriginalOutputHolder);
 
-        EXPECT_TRUE(something.OriginalOutput() == std::string("the mocked output!"));
+    EXPECT_TRUE(something.OriginalOutput() == std::string("the mocked output!"));
 
 
+    std::function<int()> MockedReturnsZeroFunction = std::function<int()> ([]() -> int {return 2;});
+    
+    FunctionHolder<int()> MockedReturnsZeroHolder = FunctionHolder<int()>(MockedReturnsZeroFunction);
+    
+    aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameReturnsZero, &MockedReturnsZeroHolder);
+
+    EXPECT_TRUE(something.ReturnsZero() != 0);
+}
+
+TEST(GlobalMockerDifferentSignaturesSecondTryTest, CheckOriginalOutputMock)
+{
+    ClassName something = ClassName();
+
+    std::shared_ptr<SimpleMockHelper> aGlobalMockerHelper = std::make_shared<SimpleMockHelper>();
+    SimpleMockHelperInterface::SetGlobalMockHelper(aGlobalMockerHelper);
+    
+
+    std::function<int(std::string, int)> MockedTreeBranchFunction = std::function<int(std::string, int)> ([](std::string, int) -> int {return -1;});
+    
+    FunctionHolder<int(std::string, int)> MockedTreeBranchHolder = FunctionHolder<int(std::string, int)>(MockedTreeBranchFunction);
+    
+    aGlobalMockerHelper->RegisterMock(MockedMethodNames::TreeBranch, &MockedTreeBranchHolder);
+
+    EXPECT_TRUE(something.TreeBranch("RockyLeaf", 3) == -1);
 
 
-        std::function<int()> lambdaHolder3 = std::function<int()> ([]() -> int {return 2;});
-        
-        FunctionHolder<int()> MockedMethodHolder3 = FunctionHolder<int()>(lambdaHolder3);
-        
-        aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameReturnsZero, &MockedMethodHolder3);
-        
-        
-        std::cout << "execute ReturnsZero on something (global mock should be in use now): " << something.ReturnsZero() << std::endl;
-        
-        std::cout << "GlobalMockHelper status: " << ((MockedGlobal::GlobalMockHelper.use_count() == 0) ? "expired" : "still in use") << std::endl;
+    std::function<std::string(int)> MockedBranchNamesFunction = std::function<std::string(int)> ([](int) -> std::string {return "AnotherBranchName";});
+    
+    FunctionHolder<std::string(int)> MockedBranchNamesHolder = FunctionHolder<std::string(int)>(MockedBranchNamesFunction);
+    
+    aGlobalMockerHelper->RegisterMock(MockedMethodNames::BranchNamesHolder, &MockedBranchNamesHolder);
 
-        EXPECT_TRUE(something.ReturnsZero() != 0);
-    }
-
-    std::cout << "GlobalMockHelper status (out of shared pointer scope): " << ((MockedGlobal::GlobalMockHelper.use_count() == 0) ? "expired" : "still in use") << std::endl;
-
-    std::cout << "execute OriginalOutput on something (global mock should be expired): " << something.OriginalOutput() << std::endl;
-
-    EXPECT_TRUE(something.OriginalOutput() == std::string("the original output"));
+    EXPECT_TRUE(something.BranchNames(2) == "AnotherBranchName");
 }
