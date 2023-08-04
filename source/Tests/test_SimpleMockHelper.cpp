@@ -143,7 +143,7 @@ TEST(GlobalMockerDifferentSignaturesTest, CheckOriginalOutputMock)
         
         std::cout << "GlobalMockHelper status: " << ((MockedGlobal::GlobalMockHelper.use_count() == 0) ? "expired" : "still in use") << std::endl;
 
-        //EXPECT_TRUE(something.OriginalOutput() == std::string("the mocked output!"));
+        EXPECT_TRUE(something.OriginalOutput() == std::string("the mocked output!"));
 
 
 
