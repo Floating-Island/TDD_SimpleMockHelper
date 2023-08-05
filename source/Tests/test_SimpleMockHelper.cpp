@@ -49,7 +49,7 @@ public:
 
     std::string BranchNames(int leaf)
     {
-        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(int, MockedMethodNames::ClassNameBranchNames)
+        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(std::string, MockedMethodNames::ClassNameBranchNames)
         return "A Branch Name";
     }  
 };
