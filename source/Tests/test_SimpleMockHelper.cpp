@@ -151,10 +151,10 @@ TEST(GlobalMockerDifferentSignaturesTest, CheckOriginalOutputMock)
 
 TEST(GlobalMockerDifferentSignaturesSecondTryTest, CheckOriginalOutputMock)
 {
-    // ClassName something = ClassName();
+    ClassName something = ClassName();
 
-    // std::shared_ptr<SimpleMockHelper> aGlobalMockerHelper = std::make_shared<SimpleMockHelper>();
-    // SimpleMockHelperInterface::SetGlobalMockHelper(aGlobalMockerHelper);
+    std::shared_ptr<SimpleMockHelper> aGlobalMockerHelper = std::make_shared<SimpleMockHelper>();
+    SimpleMockHelperInterface::SetGlobalMockHelper(aGlobalMockerHelper);
     
 
     // std::function<int(std::string, int)> MockedTreeBranchFunction = std::function<int(std::string, int)> ([](std::string, int) -> int {return -1;});
