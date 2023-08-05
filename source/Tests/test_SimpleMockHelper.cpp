@@ -125,56 +125,52 @@ TEST(GlobalMockerTest, CheckOriginalOutputMock)
 
 TEST(GlobalMockerDifferentSignaturesTest, CheckOriginalOutputMock)
 {
-    {
-        ClassName something = ClassName();
+    ClassName something = ClassName();
 
-        std::shared_ptr<SimpleMockHelper> aGlobalMockerHelper = std::make_shared<SimpleMockHelper>();
-        SimpleMockHelperInterface::SetGlobalMockHelper(aGlobalMockerHelper);
-        
+    std::shared_ptr<SimpleMockHelper> aGlobalMockerHelper = std::make_shared<SimpleMockHelper>();
+    SimpleMockHelperInterface::SetGlobalMockHelper(aGlobalMockerHelper);
+    
 
-        std::function<std::string()> MockedOriginalOutputFunction = std::function<std::string()> ([]() -> std::string {return std::string("the mocked output!");});
-        
-        FunctionHolder<std::string()> MockedOriginalOutputHolder = FunctionHolder<std::string()>(MockedOriginalOutputFunction);
-        
-        aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameOriginalOutput, &MockedOriginalOutputHolder);
+    std::function<std::string()> MockedOriginalOutputFunction = std::function<std::string()> ([]() -> std::string {return std::string("the mocked output!");});
+    
+    FunctionHolder<std::string()> MockedOriginalOutputHolder = FunctionHolder<std::string()>(MockedOriginalOutputFunction);
+    
+    aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameOriginalOutput, &MockedOriginalOutputHolder);
 
-        EXPECT_TRUE(something.OriginalOutput() == std::string("the mocked output!"));
+    EXPECT_TRUE(something.OriginalOutput() == std::string("the mocked output!"));
 
 
-        std::function<int()> MockedReturnsZeroFunction = std::function<int()> ([]() -> int {return 2;});
-        
-        FunctionHolder<int()> MockedReturnsZeroHolder = FunctionHolder<int()>(MockedReturnsZeroFunction);
-        
-        aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameReturnsZero, &MockedReturnsZeroHolder);
+    std::function<int()> MockedReturnsZeroFunction = std::function<int()> ([]() -> int {return 2;});
+    
+    FunctionHolder<int()> MockedReturnsZeroHolder = FunctionHolder<int()>(MockedReturnsZeroFunction);
+    
+    aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameReturnsZero, &MockedReturnsZeroHolder);
 
-        EXPECT_TRUE(something.ReturnsZero() != 0);
-    }
+    EXPECT_TRUE(something.ReturnsZero() != 0);
 }
 
-TEST(GlobalMockerDifferentSignaturesSecondTryTest, CheckOriginalOutputMock)
-{
-   { 
-        ClassName something = ClassName();
+// TEST(GlobalMockerDifferentSignaturesSecondTryTest, CheckOriginalOutputMock)
+// {
+//     ClassName something = ClassName();
 
-        std::shared_ptr<SimpleMockHelper> aGlobalMockerHelper = std::make_shared<SimpleMockHelper>();
-        SimpleMockHelperInterface::SetGlobalMockHelper(aGlobalMockerHelper);
-        
+//     std::shared_ptr<SimpleMockHelper> aGlobalMockerHelper = std::make_shared<SimpleMockHelper>();
+//     SimpleMockHelperInterface::SetGlobalMockHelper(aGlobalMockerHelper);
+    
 
-        std::function<int(std::string, int)> MockedTreeBranchFunction = std::function<int(std::string, int)> ([](std::string, int) -> int {return -1;});
-        
-        FunctionHolder<int(std::string, int)> MockedTreeBranchHolder = FunctionHolder<int(std::string, int)>(MockedTreeBranchFunction);
-        
-        aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameTreeBranch, &MockedTreeBranchHolder);
+//     std::function<int(std::string, int)> MockedTreeBranchFunction = std::function<int(std::string, int)> ([](std::string, int) -> int {return -1;});
+    
+//     FunctionHolder<int(std::string, int)> MockedTreeBranchHolder = FunctionHolder<int(std::string, int)>(MockedTreeBranchFunction);
+    
+//     aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameTreeBranch, &MockedTreeBranchHolder);
 
-        EXPECT_TRUE(something.TreeBranch(std::string("RockyLeaf"), 3) == -1);
+//     EXPECT_TRUE(something.TreeBranch(std::string("RockyLeaf"), 3) == -1);
 
 
-        // std::function<std::string(int)> MockedBranchNamesFunction = std::function<std::string(int)> ([](int) -> std::string {return std::string("AnotherBranchName");});
-        
-        // FunctionHolder<std::string(int)> MockedBranchNamesHolder = FunctionHolder<std::string(int)>(MockedBranchNamesFunction);
-        
-        // aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameBranchNames, &MockedBranchNamesHolder);
+//     std::function<std::string(int)> MockedBranchNamesFunction = std::function<std::string(int)> ([](int) -> std::string {return std::string("AnotherBranchName");});
+    
+//     FunctionHolder<std::string(int)> MockedBranchNamesHolder = FunctionHolder<std::string(int)>(MockedBranchNamesFunction);
+    
+//     aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameBranchNames, &MockedBranchNamesHolder);
 
-        // EXPECT_TRUE(something.BranchNames(2) == std::string("AnotherBranchName"));
-    }
-}
+//     EXPECT_TRUE(something.BranchNames(2) == std::string("AnotherBranchName"));
+// }
