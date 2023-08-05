@@ -157,13 +157,13 @@ TEST(GlobalMockerDifferentSignaturesSecondTryTest, CheckOriginalOutputMock)
     SimpleMockHelperInterface::SetGlobalMockHelper(aGlobalMockerHelper);
     
 
-    // std::function<int(std::string, int)> MockedTreeBranchFunction = std::function<int(std::string, int)> ([](std::string, int) -> int {return -1;});
+    std::function<int(std::string, int)> MockedTreeBranchFunction = std::function<int(std::string, int)> ([](std::string, int) -> int {return -1;});
     
-    // FunctionHolder<int(std::string, int)> MockedTreeBranchHolder = FunctionHolder<int(std::string, int)>(MockedTreeBranchFunction);
+    FunctionHolder<int(std::string, int)> MockedTreeBranchHolder = FunctionHolder<int(std::string, int)>(MockedTreeBranchFunction);
     
-    // aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameTreeBranch, &MockedTreeBranchHolder);
+    aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameTreeBranch, &MockedTreeBranchHolder);
 
-    // EXPECT_TRUE(something.TreeBranch(std::string("RockyLeaf"), 3) == -1);
+    EXPECT_TRUE(something.TreeBranch("RockyLeaf", 3) == -1);
 
 
     std::function<std::string(int)> MockedBranchNamesFunction = std::function<std::string(int)> ([](int) -> std::string {return std::string("AnotherBranchName");});
