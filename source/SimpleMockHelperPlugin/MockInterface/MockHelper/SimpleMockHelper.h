@@ -45,7 +45,7 @@ ReturnType SimpleMockHelper::ExecuteMockMethod(const std::string& MethodName, Ar
     
     FunctionHolder<ReturnType(ArgumentTypes...)>* FunctionHolderPointer = reinterpret_cast<FunctionHolder<ReturnType(ArgumentTypes...)>*>(FunctionHolderAddress);
     
-    return FunctionHolderPointer->function(std::forward<ArgumentTypes>(args)...);
+    return FunctionHolderPointer->function(args...);
 }
 
 namespace MockedGlobal
