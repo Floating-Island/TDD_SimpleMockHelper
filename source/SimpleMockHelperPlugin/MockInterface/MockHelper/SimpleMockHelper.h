@@ -43,7 +43,7 @@ ReturnType SimpleMockHelper::ExecuteMockMethod(const std::string& MethodName, Ar
 {
     void* FunctionHolderAddress = methodToMockMap.find(MethodName)->second;
     
-    FunctionHolder<ReturnType(ArgumentTypes)>* FunctionHolderPointer = reinterpret_cast<FunctionHolder<ReturnType(ArgumentTypes)>*>(FunctionHolderAddress);
+    FunctionHolder<ReturnType(ArgumentTypes...)>* FunctionHolderPointer = reinterpret_cast<FunctionHolder<ReturnType(ArgumentTypes...)>*>(FunctionHolderAddress);
     
     return FunctionHolderPointer->function(std::forward<ArgumentTypes>(args)...);
 }
