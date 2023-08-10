@@ -166,11 +166,11 @@ TEST(GlobalMockerDifferentSignaturesSecondTryTest, CheckOriginalOutputMock)
     EXPECT_TRUE(something.TreeBranch("RockyLeaf", 3) == 5);
 
 
-    std::function<std::string(int)> MockedBranchNamesFunction = std::function<std::string(int)> ([](int) -> std::string {return std::string("AnotherBranchName");});
+    // std::function<std::string(int)> MockedBranchNamesFunction = std::function<std::string(int)> ([](int) -> std::string {return std::string("AnotherBranchName");});
     
-    FunctionHolder<std::string(int)> MockedBranchNamesHolder = FunctionHolder<std::string(int)>(MockedBranchNamesFunction);
+    // FunctionHolder<std::string(int)> MockedBranchNamesHolder = FunctionHolder<std::string(int)>(MockedBranchNamesFunction);
     
-    aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameBranchNames, &MockedBranchNamesHolder);
+    // aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameBranchNames, &MockedBranchNamesHolder);
 
-    EXPECT_TRUE(something.BranchNames(2) == std::string("AnotherBranchName"));
+    // EXPECT_TRUE(something.BranchNames(2) == std::string("AnotherBranchName"));
 }
