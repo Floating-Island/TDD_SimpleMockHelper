@@ -37,7 +37,7 @@ struct FunctionHolder
     }
 };
 
-template<typename ReturnType, class... ArgumentTypes>
+template<typename ReturnType, typename... ArgumentTypes>
 ReturnType SimpleMockHelper::ExecuteMockMethod(const std::string& MethodName, ArgumentTypes&&... args) const
 {
     void* FunctionHolderAddress = methodToMockMap.find(MethodName)->second;
