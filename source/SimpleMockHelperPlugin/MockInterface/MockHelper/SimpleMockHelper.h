@@ -37,14 +37,15 @@ struct FunctionHolder
     }
 };
 
+//there was no problem before with: class... ArgumentTypes instead of typename... ArgumentTypes
 template<typename ReturnType, typename... ArgumentTypes>
 ReturnType SimpleMockHelper::ExecuteMockMethod(const std::string& MethodName, ArgumentTypes&&... args) const
 {
     void* FunctionHolderAddress = methodToMockMap.find(MethodName)->second;
     
-    FunctionHolder<ReturnType(decltype(args)...)>* FunctionHolderPointer = reinterpret_cast<FunctionHolder<ReturnType(decltype(args)...)>*>(FunctionHolderAddress);
+    FunctionHolder<ReturnType(ArgumentTypes...)>* FunctionHolderPointer = reinterpret_cast<FunctionHolder<ReturnType(ArgumentTypes...)>*>(FunctionHolderAddress);
     
-    return FunctionHolderPointer->function(std::forward<decltype(args)>(args)...);
+    return FunctionHolderPointer->function(std::forward<ArgumentTypes...>(args)...);
 }
 
 namespace MockedGlobal
