@@ -19,7 +19,7 @@ public:
     
     bool ContainsMethodToMock(const std::string method) const;
     
-    template<typename ReturnType, class... ArgumentTypes>
+    template<typename ReturnType, typename... ArgumentTypes>
     ReturnType ExecuteMockMethod(const std::string& MethodName, ArgumentTypes&&... args) const;
 
 private:
