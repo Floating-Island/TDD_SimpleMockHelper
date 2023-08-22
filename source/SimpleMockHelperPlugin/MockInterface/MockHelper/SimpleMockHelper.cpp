@@ -14,6 +14,7 @@ SimpleMockHelper::SimpleMockHelper()
 
 void SimpleMockHelper::RegisterMock(const std::string& MethodName, void* FunctionHolderAddress)
 {
+    std::cout << "last stop, register mock: " << FunctionHolderAddress << std::endl;
     methodToMockMap.insert({MethodName, FunctionHolderAddress});
 }
 

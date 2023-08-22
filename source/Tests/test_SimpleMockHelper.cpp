@@ -143,7 +143,7 @@ TEST(GlobalMockerDifferentSignaturesTest, CheckOriginalOutputMock)
     std::function<int()> MockedReturnsZeroFunction = std::function<int()> ([]() -> int {return 2;});
     
     FunctionHolder<int()> MockedReturnsZeroHolder = FunctionHolder<int()>(MockedReturnsZeroFunction);
-    
+    std::cout << "last stop, get the address for the mock: " << &MockedReturnsZeroHolder << std::endl;
     aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameReturnsZero, &MockedReturnsZeroHolder);
 
     EXPECT_TRUE(something.ReturnsZero() != 0);
