@@ -41,7 +41,7 @@ struct FunctionHolder
 template<typename ReturnType, typename... ArgumentTypes>
 ReturnType SimpleMockHelper::ExecuteMockMethod(const std::string& MethodName, ArgumentTypes&&... ArgumentValues) const
 {
-    void* FunctionHolderAddress = &*methodToMockMap.find(MethodName)->second;
+    void* FunctionHolderAddress = &*(methodToMockMap.find(MethodName)->second);
     
     FunctionHolder<ReturnType(ArgumentTypes...)>* FunctionHolderPointer = reinterpret_cast<FunctionHolder<ReturnType(ArgumentTypes...)>*>(FunctionHolderAddress);
     
