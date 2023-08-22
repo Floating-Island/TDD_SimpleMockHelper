@@ -159,9 +159,9 @@ TEST(GlobalMockerDifferentSignaturesSecondTryTest, CheckOriginalOutputMock)
 
     std::function<int(std::string, int)> MockedTreeBranchFunction = std::function<int(std::string, int)> ([](std::string, int) -> int {return 5;});
     
-    std::shared_ptr<FunctionHolder<int(std::string, int)>> MockedTreeBranchHolder = std::make_shared<FunctionHolder<int(std::string, int)>>(MockedTreeBranchFunction);
+    FunctionHolder<int(std::string, int)> MockedTreeBranchHolder = FunctionHolder<int(std::string, int)>(MockedTreeBranchFunction);
     
-    aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameTreeBranch, MockedTreeBranchHolder.get());
+    aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameTreeBranch, &MockedTreeBranchHolder);
 
     EXPECT_TRUE(something.TreeBranch(std::string("RockyLeaf"), 3) == 5);
 
