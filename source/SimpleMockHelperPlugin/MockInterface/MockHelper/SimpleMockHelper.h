@@ -45,7 +45,7 @@ ReturnType SimpleMockHelper::ExecuteMockMethod(const std::string& MethodName, Ar
     
     std::cout << "last stop, get the address of found void*: " << FunctionHolderAddress << std::endl;
 
-    FunctionHolder<ReturnType(ArgumentTypes...)>* FunctionHolderPointer = reinterpret_cast<FunctionHolder<ReturnType(ArgumentTypes...)>*>(FunctionHolderAddress);
+    FunctionHolder<ReturnType(ArgumentTypes...)>* FunctionHolderPointer = static_cast<FunctionHolder<ReturnType(ArgumentTypes...)>*>(FunctionHolderAddress);
     
     std::cout << "last stop, get the address of found recasted function: " << FunctionHolderPointer << std::endl;
 
