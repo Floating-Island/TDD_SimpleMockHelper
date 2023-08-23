@@ -43,13 +43,13 @@ public:
 
     int TreeBranch(std::string name, int leaf)
     {
-        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(int, MockedMethodNames::ClassNameTreeBranch)
+        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(int, MockedMethodNames::ClassNameTreeBranch, name, leaf)
         return 0;
     }
 
     std::string BranchNames(int leaf)
     {
-        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(std::string, MockedMethodNames::ClassNameBranchNames)
+        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(std::string, MockedMethodNames::ClassNameBranchNames, leaf)
         return "A Branch Name";
     }  
 };
