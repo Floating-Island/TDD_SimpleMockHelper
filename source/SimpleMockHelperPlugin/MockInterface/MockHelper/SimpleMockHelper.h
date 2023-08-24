@@ -14,7 +14,7 @@ public:
     SimpleMockHelper();
     
     //you should use this only in tests
-    void RegisterMock(const std::string& MethodName, void* FunctionHolderAddress);
+    void RegisterMock(const std::string& MethodName, void* ReplacingFunctionAddress);
     
     
     bool ContainsMethodToMock(const std::string method) const;
@@ -40,11 +40,11 @@ struct FunctionHolder
 template<typename ReturnType, typename... ArgumentTypes>
 ReturnType SimpleMockHelper::ExecuteMockMethod(const std::string& MethodName, ArgumentTypes&&... ArgumentValues) const
 {
-    void* FunctionHolderAddress = methodToMockMap.find(MethodName)->second;
+    void* ReplacingFunctionAddress = methodToMockMap.find(MethodName)->second;
+    
+    std::function<ReturnType(ArgumentTypes...)>* ReplacingFunction = static_cast<std::function<ReturnType(ArgumentTypes...)>*>(ReplacingFunctionAddress);
 
-    FunctionHolder<ReturnType(ArgumentTypes...)>* FunctionHolderPointer = static_cast<FunctionHolder<ReturnType(ArgumentTypes...)>*>(FunctionHolderAddress);
-
-    return FunctionHolderPointer->function(ArgumentValues...);
+    return (*ReplacingFunction)(ArgumentValues...);
 }
 
 namespace MockedGlobal

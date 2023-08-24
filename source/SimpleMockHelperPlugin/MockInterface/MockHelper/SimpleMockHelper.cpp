@@ -12,9 +12,9 @@ SimpleMockHelper::SimpleMockHelper()
     methodToMockMap = std::map<const std::string, void*>();
 }
 
-void SimpleMockHelper::RegisterMock(const std::string& MethodName, void* FunctionHolderAddress)
+void SimpleMockHelper::RegisterMock(const std::string& MethodName, void* ReplacingFunctionAddress)
 {
-    methodToMockMap.insert({MethodName, FunctionHolderAddress});
+    methodToMockMap.insert({MethodName, ReplacingFunctionAddress});
 }
 
 bool SimpleMockHelper::ContainsMethodToMock(const std::string method) const
