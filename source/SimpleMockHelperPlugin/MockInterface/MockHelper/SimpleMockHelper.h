@@ -16,7 +16,6 @@ public:
     //you should use this only in tests
     void RegisterMock(const std::string& MethodName, void* ReplacingFunctionAddress);
     
-    
     bool ContainsMethodToMock(const std::string method) const;
     
     template<typename ReturnType, typename... ArgumentTypes>
