@@ -26,25 +26,14 @@ private:
     std::map<const std::string, void*> methodToMockMap;
 };
 
-template<typename FunctionSignature>
-struct FunctionHolder
-{
-    std::function<FunctionSignature> function;
-    
-    FunctionHolder(std::function<FunctionSignature> afunctionToHold)
-    {
-        function = afunctionToHold;
-    }
-};
-
 template<typename ReturnType, typename... ArgumentTypes>
 ReturnType SimpleMockHelper::ExecuteMockMethod(const std::string& MethodName, ArgumentTypes&&... ArgumentValues) const
 {
     void* ReplacingFunctionAddress = methodToMockMap.find(MethodName)->second;
-    
-    std::function<ReturnType(ArgumentTypes...)>* ReplacingFunction = static_cast<std::function<ReturnType(ArgumentTypes...)>*>(ReplacingFunctionAddress);
 
-    return (*ReplacingFunction)(ArgumentValues...);
+    std::function<ReturnType(ArgumentTypes...)>* ReplacingFunctionPointer = static_cast<std::function<ReturnType(ArgumentTypes...)>*>(ReplacingFunctionAddress);
+
+    return (*ReplacingFunctionPointer)(ArgumentValues...);
 }
 
 namespace MockedGlobal

@@ -71,12 +71,15 @@ TEST(InterfaceImplementationTest, CheckOriginalMethodMock)
 
     std::cout << "setting MockHelperInstance in something..." << std::endl;
 
+
     std::shared_ptr<SimpleMockHelper> aMockerHelper = std::make_shared<SimpleMockHelper>();
     something.SetMockHelper(aMockerHelper);
+
 
     std::function<std::string()> MockedOriginalMethodFunction = std::function<std::string()> ([]() -> std::string {return std::string("templated method!");});
 
     aMockerHelper->RegisterMock(MockedMethodNames::ClassNameOriginalMethod, &MockedOriginalMethodFunction);
+
 
     std::cout << "execute OriginalMethod on something (supposedly mocked): " << something.OriginalMethod() << std::endl;
 
@@ -98,13 +101,16 @@ TEST(GlobalMockerTest, CheckOriginalOutputMock)
         
         std::cout << "setting new GlobalMockHelper..." << std::endl;
         
+
         std::shared_ptr<SimpleMockHelper> aGlobalMockerHelper = std::make_shared<SimpleMockHelper>();
         SimpleMockHelperInterface::SetGlobalMockHelper(aGlobalMockerHelper);
         
+
         std::function<std::string()> MockedOriginalMethodFunction = std::function<std::string()> ([]() -> std::string {return std::string("the mocked output!");});
-        
+
         aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameOriginalOutput, &MockedOriginalMethodFunction);
         
+
         std::cout << "execute OriginalOutput on something (global mock should be in use now): " << something.OriginalOutput() << std::endl;
         
         std::cout << "GlobalMockHelper status: " << ((MockedGlobal::GlobalMockHelper.use_count() == 0) ? "expired" : "still in use") << std::endl;
