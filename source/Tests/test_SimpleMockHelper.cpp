@@ -162,7 +162,7 @@ TEST(GlobalMockerDifferentSignaturesSecondTryTest, CheckOriginalOutputMock)
     EXPECT_TRUE(something.TreeBranch(std::string("RockyLeaf"), 3) == 5);
 
     int captureWith2 = 2;
-    std::function<std::string(int)> MockedBranchNamesFunction = std::function<std::string(int)> ([captureWith2](int) -> std::string {return std::string("AnotherBranchName");});
+    std::function<std::string(int)> MockedBranchNamesFunction = std::function<std::string(int)> ([captureWith2](int) -> std::string {std::cout << captureWith2 << std::endl; return std::string("AnotherBranchName");});
     
     aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameBranchNames, &MockedBranchNamesFunction);
 
