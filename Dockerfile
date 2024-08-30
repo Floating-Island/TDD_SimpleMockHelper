@@ -62,5 +62,5 @@ RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt \
   # install cmake in wine
   && WINEPREFIX=/usr/wine/.wine xvfb-run -a wine msiexec -i ${CMAKEWINDOWSFILE} -q
 
-# 'create' the unstable app pipeline job by copying its config
+# 'create' the simple mock helper pipeline job by copying its config
 COPY /tdd_simplemockhelper_job.xml /usr/share/jenkins/ref/jobs/tdd_simplemockhelper_job/config.xml
