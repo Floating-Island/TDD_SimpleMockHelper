@@ -25,31 +25,31 @@ public:
     
     std::string OriginalMethod()
     {
-        SIMPLEMOCKING_EXECUTEMOCKED(std::string, MockedMethodNames::ClassNameOriginalMethod)
+        SIMPLEMOCKING_EXECUTEMOCKED(std::string, &ClassName::OriginalMethod)
         return "It's the original!";
     }
     
     std::string OriginalOutput()
     {
-        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(std::string, MockedMethodNames::ClassNameOriginalOutput)
+        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(std::string, &ClassName::OriginalOutput)
         return "the original output";
     } 
 
     int ReturnsZero()
     {
-        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(int, MockedMethodNames::ClassNameReturnsZero)
+        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(int, &ClassName::ReturnsZero)
         return 0;
     }
 
     int TreeBranch(std::string name, int leaf)
     {
-        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(int, MockedMethodNames::ClassNameTreeBranch, name, leaf)
+        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(int, &ClassName::TreeBranch, name, leaf)
         return 0;
     }
 
     std::string BranchNames(int leaf)
     {
-        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(std::string, MockedMethodNames::ClassNameBranchNames, leaf)
+        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(std::string, &ClassName::BranchNames, leaf)
         return "A Branch Name";
     }  
 };
