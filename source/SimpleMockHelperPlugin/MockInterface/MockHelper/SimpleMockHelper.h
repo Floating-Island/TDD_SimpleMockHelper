@@ -15,7 +15,7 @@ public:
     
     //you should use this only in tests
     template<typename ReturnType, typename... ArgumentTypes>
-    void SimpleMockHelper::RegisterMock(std::function<ReturnType(ArgumentTypes...)>& ReplacingFunctionAddress, ReturnType (&OriginalMethodAddress) (ArgumentTypes...));
+    void RegisterMock(std::function<ReturnType(ArgumentTypes...)>& ReplacingFunctionAddress, ReturnType (&OriginalMethodAddress) (ArgumentTypes...));
     
     bool ContainsMethodToMock(void* OriginalMethodAddress) const;
     
