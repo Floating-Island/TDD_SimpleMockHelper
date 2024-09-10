@@ -9,15 +9,10 @@ namespace MockedGlobal
 
 SimpleMockHelper::SimpleMockHelper()
 {
-    methodToMockMap = std::map<const std::string, void*>();
+    methodToMockMap = std::map<void*, void*>();
 }
 
-void SimpleMockHelper::RegisterMock(const std::string& MethodName, void* ReplacingFunctionAddress)
-{
-    methodToMockMap.insert({MethodName, ReplacingFunctionAddress});
-}
-
-bool SimpleMockHelper::ContainsMethodToMock(const std::string method) const
+bool SimpleMockHelper::ContainsMethodToMock(void* method) const
 {
     return methodToMockMap.count(method) > 0;
 }

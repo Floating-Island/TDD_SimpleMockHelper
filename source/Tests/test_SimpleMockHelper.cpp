@@ -78,7 +78,7 @@ TEST(InterfaceImplementationTest, CheckOriginalMethodMock)
 
     std::function<std::string()> MockedOriginalMethodFunction = std::function<std::string()> ([]() -> std::string {return std::string("templated method!");});
 
-    aMockerHelper->RegisterMock(MockedMethodNames::ClassNameOriginalMethod, &MockedOriginalMethodFunction);
+    aMockerHelper->RegisterMock(&MockedOriginalMethodFunction, &ClassName::OriginalMethod);
 
 
     std::cout << "execute OriginalMethod on something (supposedly mocked): " << something.OriginalMethod() << std::endl;
@@ -108,7 +108,7 @@ TEST(GlobalMockerTest, CheckOriginalOutputMock)
 
         std::function<std::string()> MockedOriginalMethodFunction = std::function<std::string()> ([]() -> std::string {return std::string("the mocked output!");});
 
-        aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameOriginalOutput, &MockedOriginalMethodFunction);
+        aGlobalMockerHelper->RegisterMock(&MockedOriginalMethodFunction, &ClassName::OriginalOutput);
         
 
         std::cout << "execute OriginalOutput on something (global mock should be in use now): " << something.OriginalOutput() << std::endl;
@@ -135,14 +135,14 @@ TEST(GlobalMockerDifferentSignaturesTest, CheckOriginalOutputMock)
 
     std::function<std::string()> MockedOriginalOutputFunction = std::function<std::string()> ([]() -> std::string {return std::string("the mocked output!");});
     
-    aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameOriginalOutput, &MockedOriginalOutputFunction);
+    aGlobalMockerHelper->RegisterMock(&MockedOriginalOutputFunction, &ClassName::OriginalOutput);
 
     EXPECT_TRUE(something.OriginalOutput() == std::string("the mocked output!"));
 
 
     std::function<int()> MockedReturnsZeroFunction = std::function<int()> ([]() -> int {return 2;});
 
-    aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameReturnsZero, &MockedReturnsZeroFunction);
+    aGlobalMockerHelper->RegisterMock(&MockedReturnsZeroFunction, &ClassName::ReturnsZero);
 
     EXPECT_TRUE(something.ReturnsZero() != 0);
 }
@@ -157,16 +157,14 @@ TEST(GlobalMockerDifferentSignaturesSecondTryTest, CheckOriginalOutputMock)
 
     std::function<int(std::string, int)> MockedTreeBranchFunction = std::function<int(std::string, int)> ([](std::string, int) -> int {return 5;});
     
-    aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameTreeBranch, &MockedTreeBranchFunction);
+    aGlobalMockerHelper->RegisterMock(&MockedTreeBranchFunction, &ClassName::TreeBranch);
 
     EXPECT_TRUE(something.TreeBranch(std::string("RockyLeaf"), 3) == 5);
 
     int captureWith2 = 2;
     std::function<std::string(int)> MockedBranchNamesFunction = std::function<std::string(int)> ([captureWith2](int) -> std::string {std::cout << captureWith2 << std::endl; return std::string("AnotherBranchName");});
     
-    aGlobalMockerHelper->RegisterMock(MockedMethodNames::ClassNameBranchNames, &MockedBranchNamesFunction);
+    aGlobalMockerHelper->RegisterMock(&MockedBranchNamesFunction, &ClassName::BranchNames);
 
     EXPECT_TRUE(something.BranchNames(2) == std::string("AnotherBranchName"));
 }
-
-
