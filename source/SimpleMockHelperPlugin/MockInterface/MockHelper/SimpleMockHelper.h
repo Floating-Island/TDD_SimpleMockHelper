@@ -30,13 +30,13 @@ private:
 template<typename ReturnType, typename... ArgumentTypes>
 void SimpleMockHelper::RegisterMock(std::function<ReturnType(ArgumentTypes...)>& ReplacingFunctionAddress, ReturnType (&OriginalMethodAddress) (ArgumentTypes...))
 {
-    methodToMockMap.insert({OriginalMethodAddress, ReplacingFunctionAddress});
+    methodToMockMap.insert({(void*)OriginalMethodAddress, ReplacingFunctionAddress});
 }
 
 template<typename ReturnType, typename... ArgumentTypes>
 ReturnType SimpleMockHelper::ExecuteMockMethod(ReturnType (&OriginalMethodAddress) (ArgumentTypes...), ArgumentTypes&&... ArgumentValues) const
 {
-    void* ReplacingFunctionAddress = methodToMockMap.find(OriginalMethodAddress)->second;
+    void* ReplacingFunctionAddress = methodToMockMap.find((void*)OriginalMethodAddress)->second;
 
     std::function<ReturnType(ArgumentTypes...)>* ReplacingFunctionPointer = static_cast<std::function<ReturnType(ArgumentTypes...)>*>(ReplacingFunctionAddress);
 
