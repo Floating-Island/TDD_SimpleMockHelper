@@ -1,10 +1,10 @@
 # TDD_SimpleMockHelper
 
-**DISCLAIMER**
-You should not use this approach to mocking in C++ given that it is not possible to convert a pointer to member function into void*. However, I liked how I combined a Jenkins Docker image with automatic CI check on each local commit.
+**DISCLAIMER:**
+ You should not use this approach to mocking in C++ given that it is not possible to convert a pointer to member function into void*. However, I liked how I combined a Jenkins Docker image with automatic CI check on each local commit.
 
 This contains different test to show use cases of SimpleMockHelper which is a way of mocking methods.
-It contains a mini CI local environment: When the docker image is running, each local commit triggers Jenkins to compile the code for linux and Windows, then run some tests (using Wine for the windows program) to see if that commit succeeds/fails.
+It contains a mini CI local environment that when the docker image is running, each local commit triggers Jenkins to compile the code for linux and Windows, then run some tests (using Wine for the windows program) to see if that commit succeeds/fails.
 
 To start developing, use:
 
