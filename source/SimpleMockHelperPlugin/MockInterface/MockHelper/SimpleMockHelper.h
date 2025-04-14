@@ -19,8 +19,11 @@ public:
     
     bool ContainsMethodToMock(std::string OriginalMethod) const;
     
-    template<typename ReturnType, typename... ArgumentTypes, typename ClassType>
+    template<typename ReturnType, typename ClassType, typename... ArgumentTypes>
     ReturnType ExecuteMockMethod(ReturnType (ClassType::*OriginalMethodAddress) (ArgumentTypes...), ArgumentTypes&&... args) const;
+
+    template <typename T>
+    struct MethodTraits;
     
 private:
     std::map<std::string, void*> methodToMockMap;
@@ -34,7 +37,7 @@ void SimpleMockHelper::RegisterMock(std::function<ReturnType(ArgumentTypes...)>*
     methodToMockMap.insert({typeid(OriginalMethodAddress).name(), ReplacingFunctionAddress});
 }
 
-template<typename ReturnType, typename... ArgumentTypes, typename ClassType>
+template<typename ReturnType, typename ClassType, typename... ArgumentTypes>
 ReturnType SimpleMockHelper::ExecuteMockMethod(ReturnType (ClassType::*OriginalMethodAddress) (ArgumentTypes...), ArgumentTypes&&... ArgumentValues) const
 {
     void* ReplacingFunctionAddress = methodToMockMap.find(typeid(OriginalMethodAddress).name())->second;
@@ -43,6 +46,22 @@ ReturnType SimpleMockHelper::ExecuteMockMethod(ReturnType (ClassType::*OriginalM
 
     return (*ReplacingFunctionPointer)(ArgumentValues...);
 }
+
+template <typename ClassType, typename RetType, typename... Args>
+struct SimpleMockHelper::MethodTraits<RetType(ClassType::*)(Args...)> {
+    using Class = ClassType;
+    using ReturnType = RetType;
+    using ArgumentTuple = std::tuple<Args...>;
+    static constexpr bool isConst = false;
+};
+
+template <typename ClassType, typename RetType, typename... Args>
+struct SimpleMockHelper::MethodTraits<RetType(ClassType::*)(Args...) const> {
+    using Class = ClassType;
+    using ReturnType = RetType;
+    using ArgumentTuple = std::tuple<Args...>;
+    static constexpr bool isConst = true;
+};
 
 namespace MockedGlobal
 {
