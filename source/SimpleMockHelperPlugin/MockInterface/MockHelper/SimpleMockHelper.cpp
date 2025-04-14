@@ -9,12 +9,12 @@ namespace MockedGlobal
 
 SimpleMockHelper::SimpleMockHelper()
 {
-    methodToMockMap = std::map<void*, void*>();
+    methodToMockMap = std::map<std::string, void*>();
 }
 
-bool SimpleMockHelper::ContainsMethodToMock(void* method) const
+bool SimpleMockHelper::ContainsMethodToMock(std::string OriginalMethod) const
 {
-    return methodToMockMap.count(method) > 0;
+    return methodToMockMap.count(OriginalMethod) > 0;
 }
 
 //put here your #endif //TEST_FLAG

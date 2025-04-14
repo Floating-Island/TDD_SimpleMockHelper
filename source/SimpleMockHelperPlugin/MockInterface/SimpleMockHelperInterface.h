@@ -28,7 +28,7 @@ private:
 /* put here your #if TEST_FLAG */   \
 const std::weak_ptr<SimpleMockHelper> GlobalMockHelperInstance = SimpleMockHelperInterface::GlobalMockHelper();    \
     \
-if(!GlobalMockHelperInstance.expired() && GlobalMockHelperInstance.lock()->ContainsMethodToMock((void*)ClassMethodAddress))    \
+if(!GlobalMockHelperInstance.expired() && GlobalMockHelperInstance.lock()->ContainsMethodToMock(typeid(ClassMethodAddress).name()))    \
 {   \
     return GlobalMockHelperInstance.lock()->ExecuteMockMethod<ReturnType>(ClassMethodAddress, ##__VA_ARGS__);    \
 }/* add here a \ if you put your #if TEST_FLAG like the comment above */
@@ -37,7 +37,7 @@ if(!GlobalMockHelperInstance.expired() && GlobalMockHelperInstance.lock()->Conta
 #define SIMPLEMOCKING_EXECUTEMOCKED(ReturnType, ClassMethodAddress, ...)    \
 /* put here your #if TEST_FLAG */   \
 const std::weak_ptr<SimpleMockHelper> MockHelperInstance = GetMockHelper();    \
-if(!MockHelperInstance.expired() && MockHelperInstance.lock()->ContainsMethodToMock((void*)ClassMethodAddress))    \
+if(!MockHelperInstance.expired() && MockHelperInstance.lock()->ContainsMethodToMock(typeid(ClassMethodAddress).name()))    \
 {   \
     return MockHelperInstance.lock()->ExecuteMockMethod<ReturnType>(ClassMethodAddress, ##__VA_ARGS__);    \
 }/* add here a \ if you put your #if TEST_FLAG like the comment above */
