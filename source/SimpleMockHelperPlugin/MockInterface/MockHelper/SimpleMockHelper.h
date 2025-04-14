@@ -19,7 +19,7 @@ public:
     
     bool ContainsMethodToMock(std::string OriginalMethod) const;
     
-    template<typename ReturnType, typename ClassType, typename... ArgumentTypes>
+    template<typename ReturnType, typename... ArgumentTypes, typename ClassType>
     ReturnType ExecuteMockMethod(ReturnType (ClassType::*OriginalMethodAddress) (ArgumentTypes...), ArgumentTypes&&... args) const;
     
 private:
@@ -34,7 +34,7 @@ void SimpleMockHelper::RegisterMock(std::function<ReturnType(ArgumentTypes...)>*
     methodToMockMap.insert({typeid(OriginalMethodAddress).name(), ReplacingFunctionAddress});
 }
 
-template<typename ReturnType, typename ClassType, typename... ArgumentTypes>
+template<typename ReturnType, typename... ArgumentTypes, typename ClassType>
 ReturnType SimpleMockHelper::ExecuteMockMethod(ReturnType (ClassType::*OriginalMethodAddress) (ArgumentTypes...), ArgumentTypes&&... ArgumentValues) const
 {
     void* ReplacingFunctionAddress = methodToMockMap.find(typeid(OriginalMethodAddress).name())->second;
