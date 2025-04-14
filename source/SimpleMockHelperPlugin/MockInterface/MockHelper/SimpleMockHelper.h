@@ -49,7 +49,7 @@ ReturnType SimpleMockHelper::ExecuteMockMethod(ReturnType (ClassType::*OriginalM
 
 template <typename ClassType, typename RetType, typename... Args>
 struct SimpleMockHelper::MethodTraits<RetType(ClassType::*)(Args...)> {
-    using class = ClassType;
+    using classType = ClassType;
     using returnType = RetType;
     using argumentTuple = std::tuple<Args...>;
     static constexpr bool isConst = false;
@@ -57,7 +57,7 @@ struct SimpleMockHelper::MethodTraits<RetType(ClassType::*)(Args...)> {
 
 template <typename ClassType, typename RetType, typename... Args>
 struct SimpleMockHelper::MethodTraits<RetType(ClassType::*)(Args...) const> {
-    using class = ClassType;
+    using classType = ClassType;
     using returnType = RetType;
     using argumentTuple = std::tuple<Args...>;
     static constexpr bool isConst = true;
