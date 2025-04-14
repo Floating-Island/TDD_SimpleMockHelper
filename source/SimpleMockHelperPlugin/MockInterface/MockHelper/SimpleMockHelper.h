@@ -20,7 +20,7 @@ public:
     bool ContainsMethodToMock(std::string OriginalMethod) const;
     
     template<typename ReturnType, typename ClassType, typename... ArgumentTypes>
-    ReturnType ExecuteMockMethod(ReturnType (ClassType::*OriginalMethodAddress) (ArgumentTypes...), ArgumentTypes&&... args) const;
+    ReturnType ExecuteMockMethod(ReturnType (ClassType::*OriginalMethodAddress) (ArgumentTypes...), ArgumentTypes&&... args);
 
     template <typename T>
     struct MethodTraits;
