@@ -20,7 +20,7 @@ public:
     bool ContainsMethodToMock(std::string OriginalMethod) const;
     
     template<typename ReturnType, typename ClassType, typename... ArgumentTypes>
-    ReturnType ExecuteMockMethod(ReturnType (ClassType::*OriginalMethodAddress) (ArgumentTypes...), ArgumentTypes&&... args);
+    ReturnType ExecuteMockMethod(ReturnType (ClassType::*OriginalMethodAddress) (ArgumentTypes...), ArgumentTypes&&... args) const;
 
     template <typename T>
     struct MethodTraits;
@@ -29,7 +29,6 @@ private:
     std::map<std::string, void*> methodToMockMap;
 };
 
-// Cambiar key de void* a un string que salga de typeid().name();  std::string methodName = typeid(void (MyClass::*)(int)).name();
 
 template<typename ReturnType, typename ClassType, typename... ArgumentTypes>
 void SimpleMockHelper::RegisterMock(std::function<ReturnType(ArgumentTypes...)>* ReplacingFunctionAddress, ReturnType (ClassType::*OriginalMethodAddress) (ArgumentTypes...))
@@ -38,7 +37,7 @@ void SimpleMockHelper::RegisterMock(std::function<ReturnType(ArgumentTypes...)>*
 }
 
 template<typename ReturnType, typename ClassType, typename... ArgumentTypes>
-ReturnType SimpleMockHelper::ExecuteMockMethod(ReturnType (ClassType::*OriginalMethodAddress) (ArgumentTypes...), ArgumentTypes&&... ArgumentValues)
+ReturnType SimpleMockHelper::ExecuteMockMethod(ReturnType (ClassType::*OriginalMethodAddress) (ArgumentTypes...), ArgumentTypes&&... ArgumentValues) const
 {
     void* ReplacingFunctionAddress = methodToMockMap.find(typeid(OriginalMethodAddress).name())->second;
 
