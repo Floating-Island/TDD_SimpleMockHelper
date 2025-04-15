@@ -25,31 +25,31 @@ public:
     
     std::string OriginalMethod()
     {
-        SIMPLEMOCKING_EXECUTEMOCKED(std::string, &ClassName::OriginalMethod)
+        SIMPLEMOCKING_EXECUTEMOCKED(&ClassName::OriginalMethod)
         return "It's the original!";
     }
     
     std::string OriginalOutput()
     {
-        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(std::string, &ClassName::OriginalOutput)
+        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(&ClassName::OriginalOutput)
         return "the original output";
     } 
 
     int ReturnsZero()
     {
-        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(int, &ClassName::ReturnsZero)
+        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(&ClassName::ReturnsZero)
         return 0;
     }
 
     // int TreeBranch(std::string name, int leaf)
     // {
-    //     SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(int, &ClassName::TreeBranch, name, leaf)
+    //     SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(&ClassName::TreeBranch, name, leaf)
     //     return 0;
     // }
 
     // std::string BranchNames(int leaf)
     // {
-    //     SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(std::string, &ClassName::BranchNames, leaf)
+    //     SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(&ClassName::BranchNames, leaf)
     //     return "A Branch Name";
     // }  
 };

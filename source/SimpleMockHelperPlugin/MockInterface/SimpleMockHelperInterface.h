@@ -24,23 +24,23 @@ private:
 
 //these macros should be used only in the class to test
 
-#define SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(ReturnType, ClassMethodAddress, ...)    \
+#define SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(ClassMethodAddress, ...)    \
 /* put here your #if TEST_FLAG */   \
 const std::weak_ptr<SimpleMockHelper> GlobalMockHelperInstance = SimpleMockHelperInterface::GlobalMockHelper();    \
     \
 if(!GlobalMockHelperInstance.expired() && GlobalMockHelperInstance.lock()->ContainsMethodToMock(typeid(ClassMethodAddress).name()))    \
 {   \
     using methodTraits = SimpleMockHelper::MethodTraits<decltype(ClassMethodAddress)>;    \
-    return GlobalMockHelperInstance.lock()->ExecuteMockMethod<ReturnType, methodTraits::classType, ##__VA_ARGS__>(ClassMethodAddress, ##__VA_ARGS__);    \
+    return GlobalMockHelperInstance.lock()->ExecuteMockMethod<methodTraits::returnType, methodTraits::classType, ##__VA_ARGS__>(ClassMethodAddress, ##__VA_ARGS__);    \
 }/* add here a \ if you put your #if TEST_FLAG like the comment above */
 //put here your #endif //TEST_FLAG
 
-#define SIMPLEMOCKING_EXECUTEMOCKED(ReturnType, ClassMethodAddress, ...)    \
+#define SIMPLEMOCKING_EXECUTEMOCKED(ClassMethodAddress, ...)    \
 /* put here your #if TEST_FLAG */   \
 const std::weak_ptr<SimpleMockHelper> MockHelperInstance = GetMockHelper();    \
 if(!MockHelperInstance.expired() && MockHelperInstance.lock()->ContainsMethodToMock(typeid(ClassMethodAddress).name()))    \
 {   \
     using methodTraits = SimpleMockHelper::MethodTraits<decltype(ClassMethodAddress)>;    \
-    return MockHelperInstance.lock()->ExecuteMockMethod<ReturnType, methodTraits::classType, ##__VA_ARGS__>(ClassMethodAddress, ##__VA_ARGS__);    \
+    return MockHelperInstance.lock()->ExecuteMockMethod<methodTraits::returnType, methodTraits::classType, ##__VA_ARGS__>(ClassMethodAddress, ##__VA_ARGS__);    \
 }/* add here a \ if you put your #if TEST_FLAG like the comment above */
 //put here your #endif //TEST_FLAG
