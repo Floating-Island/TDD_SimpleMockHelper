@@ -31,7 +31,7 @@ const std::weak_ptr<SimpleMockHelper> GlobalMockHelperInstance = SimpleMockHelpe
 if(!GlobalMockHelperInstance.expired() && GlobalMockHelperInstance.lock()->ContainsMethodToMock(typeid(ClassMethodAddress).name()))    \
 {   \
     using methodTraits = SimpleMockHelper::MethodTraits<decltype(ClassMethodAddress)>;    \
-    return GlobalMockHelperInstance.lock()->ExecuteMockMethod<methodTraits::returnType, methodTraits::classType, ##__VA_ARGS__>(ClassMethodAddress, ##__VA_ARGS__);    \
+    return GlobalMockHelperInstance.lock()->ExecuteMockMethod<methodTraits::returnType, methodTraits::classType, methodTraits::argumentTuple>(ClassMethodAddress, ##__VA_ARGS__);    \
 }/* add here a \ if you put your #if TEST_FLAG like the comment above */
 //put here your #endif //TEST_FLAG
 
@@ -41,6 +41,6 @@ const std::weak_ptr<SimpleMockHelper> MockHelperInstance = GetMockHelper();    \
 if(!MockHelperInstance.expired() && MockHelperInstance.lock()->ContainsMethodToMock(typeid(ClassMethodAddress).name()))    \
 {   \
     using methodTraits = SimpleMockHelper::MethodTraits<decltype(ClassMethodAddress)>;    \
-    return MockHelperInstance.lock()->ExecuteMockMethod<methodTraits::returnType, methodTraits::classType, ##__VA_ARGS__>(ClassMethodAddress, ##__VA_ARGS__);    \
+    return MockHelperInstance.lock()->ExecuteMockMethod<methodTraits::returnType, methodTraits::classType, methodTraits::argumentTuple>(ClassMethodAddress, ##__VA_ARGS__);    \
 }/* add here a \ if you put your #if TEST_FLAG like the comment above */
 //put here your #endif //TEST_FLAG
