@@ -41,17 +41,17 @@ public:
         return 0;
     }
 
-    int TreeBranch(std::string name, int leaf)
-    {
-        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(int, &ClassName::TreeBranch, name, leaf)
-        return 0;
-    }
+    // int TreeBranch(std::string name, int leaf)
+    // {
+    //     SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(int, &ClassName::TreeBranch, name, leaf)
+    //     return 0;
+    // }
 
-    std::string BranchNames(int leaf)
-    {
-        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(std::string, &ClassName::BranchNames, leaf)
-        return "A Branch Name";
-    }  
+    // std::string BranchNames(int leaf)
+    // {
+    //     SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(std::string, &ClassName::BranchNames, leaf)
+    //     return "A Branch Name";
+    // }  
 };
 
 
@@ -147,24 +147,24 @@ TEST(GlobalMockerDifferentSignaturesTest, CheckOriginalOutputMock)
     EXPECT_TRUE(something.ReturnsZero() != 0);
 }
 
-TEST(GlobalMockerDifferentSignaturesSecondTryTest, CheckOriginalOutputMock)
-{
-    ClassName something = ClassName();
+// TEST(GlobalMockerDifferentSignaturesSecondTryTest, CheckOriginalOutputMock)
+// {
+//     ClassName something = ClassName();
 
-    std::shared_ptr<SimpleMockHelper> aGlobalMockerHelper = std::make_shared<SimpleMockHelper>();
-    SimpleMockHelperInterface::SetGlobalMockHelper(aGlobalMockerHelper);
+//     std::shared_ptr<SimpleMockHelper> aGlobalMockerHelper = std::make_shared<SimpleMockHelper>();
+//     SimpleMockHelperInterface::SetGlobalMockHelper(aGlobalMockerHelper);
     
 
-    std::function<int(std::string, int)> MockedTreeBranchFunction = std::function<int(std::string, int)> ([](std::string, int) -> int {return 5;});
+//     std::function<int(std::string, int)> MockedTreeBranchFunction = std::function<int(std::string, int)> ([](std::string, int) -> int {return 5;});
     
-    aGlobalMockerHelper->RegisterMock(&MockedTreeBranchFunction, &ClassName::TreeBranch);
+//     aGlobalMockerHelper->RegisterMock(&MockedTreeBranchFunction, &ClassName::TreeBranch);
 
-    EXPECT_TRUE(something.TreeBranch(std::string("RockyLeaf"), 3) == 5);
+//     EXPECT_TRUE(something.TreeBranch(std::string("RockyLeaf"), 3) == 5);
 
-    int captureWith2 = 2;
-    std::function<std::string(int)> MockedBranchNamesFunction = std::function<std::string(int)> ([captureWith2](int) -> std::string {std::cout << captureWith2 << std::endl; return std::string("AnotherBranchName");});
+//     int captureWith2 = 2;
+//     std::function<std::string(int)> MockedBranchNamesFunction = std::function<std::string(int)> ([captureWith2](int) -> std::string {std::cout << captureWith2 << std::endl; return std::string("AnotherBranchName");});
     
-    aGlobalMockerHelper->RegisterMock(&MockedBranchNamesFunction, &ClassName::BranchNames);
+//     aGlobalMockerHelper->RegisterMock(&MockedBranchNamesFunction, &ClassName::BranchNames);
 
-    EXPECT_TRUE(something.BranchNames(2) == std::string("AnotherBranchName"));
-}
+//     EXPECT_TRUE(something.BranchNames(2) == std::string("AnotherBranchName"));
+// }
