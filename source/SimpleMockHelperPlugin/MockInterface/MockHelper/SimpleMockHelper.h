@@ -71,7 +71,7 @@ inline auto SimpleMockHelper::CallExecute(MethodPointer methodPointer, ArgumentT
 {
     using Traits = MethodTraits<MethodPointer>;
 
-    if constexpr (Traits::hasArguments)
+    if constexpr (sizeof...(Args) > 0)
     {
         return ExecuteMockMethod<typename Traits::returnType, typename Traits::classType, ArgumentTypes...>(methodPointer, std::forward<ArgumentTypes>(ArgumentValues)...);
     }
