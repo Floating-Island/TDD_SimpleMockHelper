@@ -71,7 +71,7 @@ inline auto SimpleMockHelper::CallExecute(MethodPointer methodPointer, ArgumentT
 {
     using Traits = MethodTraits<MethodPointer>;
 
-    if constexpr (sizeof...(Args) > 0)
+    if constexpr (Traits::hasArguments)
     {
         return ExecuteMockMethod<typename Traits::returnType, typename Traits::classType, ArgumentTypes...>(methodPointer, std::forward<ArgumentTypes>(ArgumentValues)...);
     }
@@ -87,7 +87,7 @@ struct SimpleMockHelper::MethodTraits<RetType(ClassType::*)(Args...)> {
     using returnType = RetType;
     using argumentTuple = std::tuple<Args...>;
     static constexpr bool isConst = false;
-    static constexpr bool hasArguments = (sizeof...(Args) > 0);
+    static constexpr bool hasArguments = std::tuple_size_v<argumentTuple> > 0);
 };
 
 template <typename ClassType, typename RetType, typename... Args>
@@ -96,7 +96,7 @@ struct SimpleMockHelper::MethodTraits<RetType(ClassType::*)(Args...) const> {
     using returnType = RetType;
     using argumentTuple = std::tuple<Args...>;
     static constexpr bool isConst = true;
-    static constexpr bool hasArguments = (sizeof...(Args) > 0);
+    static constexpr bool hasArguments = std::tuple_size_v<argumentTuple> > 0);
 };
 
 namespace MockedGlobal
