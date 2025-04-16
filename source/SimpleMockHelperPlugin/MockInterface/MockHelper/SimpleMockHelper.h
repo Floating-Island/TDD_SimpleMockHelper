@@ -18,7 +18,12 @@ public:
     void RegisterMock(std::function<ReturnType(ArgumentTypes...)>* ReplacingFunctionAddress, ReturnType (ClassType::*OriginalMethodAddress) (ArgumentTypes...));
     
     bool ContainsMethodToMock(std::string OriginalMethod) const;
-    
+
+    // Version with 0 arguments:
+    template<typename ReturnType, typename ClassType>
+    ReturnType ExecuteMockMethod(ReturnType (ClassType::*OriginalMethodAddress) ()) const;
+
+    // Version with 1 or more arguments:
     template<typename ReturnType, typename ClassType, typename... ArgumentTypes>
     ReturnType ExecuteMockMethod(ReturnType (ClassType::*OriginalMethodAddress) (ArgumentTypes...), ArgumentTypes&&... ArgumentValues) const;
 
@@ -36,8 +41,18 @@ void SimpleMockHelper::RegisterMock(std::function<ReturnType(ArgumentTypes...)>*
     methodToMockMap.insert({typeid(OriginalMethodAddress).name(), ReplacingFunctionAddress});
 }
 
-template<typename ReturnType, typename ClassType, typename... ArgumentTypes>
-ReturnType SimpleMockHelper::ExecuteMockMethod(ReturnType (ClassType::*OriginalMethodAddress) (ArgumentTypes...), ArgumentTypes&&... ArgumentValues) const
+template <typename ReturnType, typename ClassType>
+inline ReturnType SimpleMockHelper::ExecuteMockMethod(ReturnType (ClassType::*OriginalMethodAddress)()) const
+{
+    void* ReplacingFunctionAddress = methodToMockMap.find(typeid(OriginalMethodAddress).name())->second;
+
+    std::function<ReturnType()>* ReplacingFunctionPointer = static_cast<std::function<ReturnType()>*>(ReplacingFunctionAddress);
+
+    return (*ReplacingFunctionPointer)();
+}
+
+template <typename ReturnType, typename ClassType, typename... ArgumentTypes>
+ReturnType SimpleMockHelper::ExecuteMockMethod(ReturnType (ClassType::*OriginalMethodAddress)(ArgumentTypes...), ArgumentTypes &&...ArgumentValues) const
 {
     void* ReplacingFunctionAddress = methodToMockMap.find(typeid(OriginalMethodAddress).name())->second;
 
