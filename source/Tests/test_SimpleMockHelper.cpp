@@ -43,15 +43,23 @@ public:
 
     int TreeBranch(std::string name, int leaf)
     {
-        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(&ClassName::TreeBranch, name, leaf)
+        //SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(&ClassName::TreeBranch, name, leaf)
+
+        const std::weak_ptr<SimpleMockHelper> GlobalMockHelperInstance = SimpleMockHelperInterface::GlobalMockHelper();
+        if(!GlobalMockHelperInstance.expired() && GlobalMockHelperInstance.lock()->ContainsMethodToMock(typeid(&ClassName::TreeBranch).name()))
+        {
+            using methodTraits = SimpleMockHelper::MethodTraits<decltype(&ClassName::TreeBranch)>;
+            return GlobalMockHelperInstance.lock()->ExecuteMockMethod<methodTraits::returnType, methodTraits::classType, methodTraits::argumentTuple>(&ClassName::TreeBranch, name, leaf);
+        }
+
         return 0;
     }
 
-    std::string BranchNames(int leaf)
-    {
-        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(&ClassName::BranchNames, leaf)
-        return "A Branch Name";
-    }  
+    // std::string BranchNames(int leaf)
+    // {
+    //     SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(&ClassName::BranchNames, leaf)
+    //     return "A Branch Name";
+    // }  
 };
 
 
