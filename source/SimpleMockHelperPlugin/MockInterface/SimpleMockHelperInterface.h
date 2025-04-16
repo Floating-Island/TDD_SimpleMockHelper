@@ -27,7 +27,6 @@ private:
 #define SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(ClassMethodAddress, ...)    \
 /* put here your #if TEST_FLAG */   \
 const std::weak_ptr<SimpleMockHelper> GlobalMockHelperInstance = SimpleMockHelperInterface::GlobalMockHelper();    \
-    \
 if(!GlobalMockHelperInstance.expired() && GlobalMockHelperInstance.lock()->ContainsMethodToMock(typeid(ClassMethodAddress).name()))    \
 {   \
     return GlobalMockHelperInstance.lock()->ExecuteMockMethod(ClassMethodAddress, ##__VA_ARGS__);    \
