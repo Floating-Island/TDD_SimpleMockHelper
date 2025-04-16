@@ -3,6 +3,7 @@
 #include <map>
 #include <memory>
 #include <typeinfo>
+#include <tuple>
 
 //put here your #if TEST_FLAG
 
@@ -87,7 +88,7 @@ struct SimpleMockHelper::MethodTraits<RetType(ClassType::*)(Args...)> {
     using returnType = RetType;
     using argumentTuple = std::tuple<Args...>;
     static constexpr bool isConst = false;
-    static constexpr bool hasArguments = std::tuple_size_v<argumentTuple> > 0);
+    static constexpr bool hasArguments = std::tuple_size_v<argumentTuple> > 0;
 };
 
 template <typename ClassType, typename RetType, typename... Args>
@@ -96,7 +97,7 @@ struct SimpleMockHelper::MethodTraits<RetType(ClassType::*)(Args...) const> {
     using returnType = RetType;
     using argumentTuple = std::tuple<Args...>;
     static constexpr bool isConst = true;
-    static constexpr bool hasArguments = std::tuple_size_v<argumentTuple> > 0);
+    static constexpr bool hasArguments = std::tuple_size_v<argumentTuple> > 0;
 };
 
 namespace MockedGlobal
