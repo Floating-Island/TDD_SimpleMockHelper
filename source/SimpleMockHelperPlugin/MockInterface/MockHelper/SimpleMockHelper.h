@@ -87,7 +87,7 @@ struct SimpleMockHelper::MethodTraits<RetType(ClassType::*)(Args...)> {
     using classType = ClassType;
     using returnType = RetType;
     using argumentTuple = std::tuple<Args...>;
-    using argumentDecay = std::decay_t<Args>...;
+    using argumentDecay = std::decay_t<Args...>;
     static constexpr bool isConst = false;
     static constexpr bool hasArguments = std::tuple_size_v<argumentTuple> > 0;
 };
@@ -97,7 +97,7 @@ struct SimpleMockHelper::MethodTraits<RetType(ClassType::*)(Args...) const> {
     using classType = ClassType;
     using returnType = RetType;
     using argumentTuple = std::tuple<Args...>;
-    using argumentDecay = std::decay_t<Args>...;
+    using argumentDecay = std::decay_t<Args...>;
     static constexpr bool isConst = true;
     static constexpr bool hasArguments = std::tuple_size_v<argumentTuple> > 0;
 };
