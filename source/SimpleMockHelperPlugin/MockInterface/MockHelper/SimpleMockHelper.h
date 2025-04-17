@@ -37,7 +37,7 @@ private:
 
     // Version with 1 or more arguments and no const:
     template<typename ReturnType, typename ClassType, typename... ArgumentTypes>
-    ReturnType ExecuteMockMethod(ReturnType (ClassType::*OriginalMethodAddress) (ArgumentTypes...), ArgumentTypes&&... ArgumentValues) const;
+    ReturnType ExecuteMockMethodWithArguments(ReturnType (ClassType::*OriginalMethodAddress) (ArgumentTypes...), ArgumentTypes&&... ArgumentValues) const;
 };
 
 
@@ -58,7 +58,7 @@ inline ReturnType SimpleMockHelper::ExecuteMockMethod(ReturnType (ClassType::*Or
 }
 
 template <typename ReturnType, typename ClassType, typename... ArgumentTypes>
-inline ReturnType SimpleMockHelper::ExecuteMockMethod(ReturnType (ClassType::*OriginalMethodAddress)(ArgumentTypes...), ArgumentTypes&&... ArgumentValues) const
+inline ReturnType SimpleMockHelper::ExecuteMockMethodWithArguments(ReturnType (ClassType::*OriginalMethodAddress) (ArgumentTypes...), ArgumentTypes&&... ArgumentValues) const
 {
     void* ReplacingFunctionAddress = methodToMockMap.find(typeid(OriginalMethodAddress).name())->second;
 
@@ -74,7 +74,7 @@ inline auto SimpleMockHelper::CallExecute(MethodPointer methodPointer, ArgumentT
 
     if constexpr (Traits::hasArguments)
     {
-        return ExecuteMockMethod(methodPointer, std::forward<ArgumentTypes>(ArgumentValues)...);
+        return ExecuteMockMethodWithArguments(methodPointer, std::forward<ArgumentTypes>(ArgumentValues)...);
     }
     else
     {
