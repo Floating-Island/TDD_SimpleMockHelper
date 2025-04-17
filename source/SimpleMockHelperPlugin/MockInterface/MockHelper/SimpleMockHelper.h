@@ -58,7 +58,7 @@ inline ReturnType SimpleMockHelper::ExecuteMockMethod(ReturnType (ClassType::*Or
 }
 
 template <typename ReturnType, typename ClassType, typename... ArgumentTypes>
-ReturnType SimpleMockHelper::ExecuteMockMethod(ReturnType (ClassType::*OriginalMethodAddress)(ArgumentTypes...), ArgumentTypes &&...ArgumentValues) const
+ReturnType SimpleMockHelper::ExecuteMockMethod(ReturnType (ClassType::*OriginalMethodAddress)(ArgumentTypes...), ArgumentTypes&&... ArgumentValues) const
 {
     void* ReplacingFunctionAddress = methodToMockMap.find(typeid(OriginalMethodAddress).name())->second;
 
@@ -68,13 +68,13 @@ ReturnType SimpleMockHelper::ExecuteMockMethod(ReturnType (ClassType::*OriginalM
 }
 
 template <typename MethodPointer, typename... ArgumentTypes>
-inline auto SimpleMockHelper::CallExecute(MethodPointer methodPointer, ArgumentTypes &&...ArgumentValues) const
+inline auto SimpleMockHelper::CallExecute(MethodPointer methodPointer, ArgumentTypes&&... ArgumentValues) const
 {
     using Traits = MethodTraits<MethodPointer>;
 
     if constexpr (Traits::hasArguments)
     {
-        return ExecuteMockMethod<typename Traits::returnType, typename Traits::classType, std::decay_t<ArgumentTypes>...>(methodPointer, std::forward<ArgumentTypes>(ArgumentValues)...);
+        return ExecuteMockMethod<typename Traits::returnType, typename Traits::classType, typename Traits::argumentDecay>(methodPointer, std::forward<ArgumentTypes>(ArgumentValues)...);
     }
     else
     {
@@ -87,6 +87,7 @@ struct SimpleMockHelper::MethodTraits<RetType(ClassType::*)(Args...)> {
     using classType = ClassType;
     using returnType = RetType;
     using argumentTuple = std::tuple<Args...>;
+    using argumentDecay = std::decay_t<Args>...;
     static constexpr bool isConst = false;
     static constexpr bool hasArguments = std::tuple_size_v<argumentTuple> > 0;
 };
@@ -96,6 +97,7 @@ struct SimpleMockHelper::MethodTraits<RetType(ClassType::*)(Args...) const> {
     using classType = ClassType;
     using returnType = RetType;
     using argumentTuple = std::tuple<Args...>;
+    using argumentDecay = std::decay_t<Args>...;
     static constexpr bool isConst = true;
     static constexpr bool hasArguments = std::tuple_size_v<argumentTuple> > 0;
 };
