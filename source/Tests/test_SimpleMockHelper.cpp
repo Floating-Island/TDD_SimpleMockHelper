@@ -43,13 +43,13 @@ public:
 
     int TreeBranch(std::string name, int leaf)
     {
-        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(&ClassName::TreeBranch, name, leaf)
+        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(&ClassName::TreeBranch, std::forward<std::string>(name), std::forward<int>(leaf))
         return 0;
     }
 
     std::string BranchNames(int leaf)
     {
-        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(&ClassName::BranchNames, leaf)
+        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(&ClassName::BranchNames, std::forward<int>(leaf))
         return "A Branch Name";
     }  
 };

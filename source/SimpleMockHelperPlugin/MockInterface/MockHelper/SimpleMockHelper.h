@@ -21,7 +21,7 @@ public:
     bool ContainsMethodToMock(std::string OriginalMethod) const;
 
     template <typename MethodPointer, typename... ArgumentTypes>
-    auto CallExecute(MethodPointer methodPointer, ArgumentTypes&&... ArgumentValues) const;;
+    auto CallExecute(MethodPointer methodPointer, ArgumentTypes&&... ArgumentValues) const;
 
     template <typename T>
     struct MethodTraits;
