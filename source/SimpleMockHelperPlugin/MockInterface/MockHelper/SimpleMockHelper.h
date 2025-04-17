@@ -74,7 +74,7 @@ inline auto SimpleMockHelper::CallExecute(MethodPointer methodPointer, ArgumentT
 
     if constexpr (Traits::hasArguments)
     {
-        return ExecuteMockMethod<typename Traits::returnType, typename Traits::classType, typename Traits::argumentDecay>(methodPointer, std::forward<ArgumentTypes>(ArgumentValues)...);
+        return ExecuteMockMethod<typename Traits::returnType, typename Traits::classType, typename Traits::argumentTuple>(methodPointer, std::forward<ArgumentTypes>(ArgumentValues)...);
     }
     else
     {
@@ -87,7 +87,7 @@ struct SimpleMockHelper::MethodTraits<RetType(ClassType::*)(Args...)> {
     using classType = ClassType;
     using returnType = RetType;
     using argumentTuple = std::tuple<Args...>;
-    using argumentDecay = std::decay_t<Args...>;
+    using argumentDecay = std::decay_t<argumentTuple>;
     static constexpr bool isConst = false;
     static constexpr bool hasArguments = std::tuple_size_v<argumentTuple> > 0;
 };
