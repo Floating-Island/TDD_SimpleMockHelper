@@ -62,7 +62,7 @@ ReturnType SimpleMockHelper::ExecuteMockMethod(ReturnType (ClassType::*OriginalM
 {
     void* ReplacingFunctionAddress = methodToMockMap.find(typeid(OriginalMethodAddress).name())->second;
 
-    std::function<ReturnType(ArgumentTypes...)>* ReplacingFunctionPointer = static_cast<std::function<ReturnType(ArgumentTypes...)>*>(ReplacingFunctionAddress);
+    std::function<ReturnType(std::decay_t<ArgumentTypes>...)>* ReplacingFunctionPointer = static_cast<std::function<ReturnType(std::decay_t<ArgumentTypes>...)>*>(ReplacingFunctionAddress);
 
     return (*ReplacingFunctionPointer)(std::forward<ArgumentTypes>(ArgumentValues)...);
 }
