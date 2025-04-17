@@ -58,7 +58,7 @@ inline ReturnType SimpleMockHelper::ExecuteMockMethod(ReturnType (ClassType::*Or
 }
 
 template <typename ReturnType, typename ClassType, typename... ArgumentTypes>
-ReturnType SimpleMockHelper::ExecuteMockMethod(ReturnType (ClassType::*OriginalMethodAddress)(ArgumentTypes...), ArgumentTypes&&... ArgumentValues) const
+inline ReturnType SimpleMockHelper::ExecuteMockMethod(ReturnType (ClassType::*OriginalMethodAddress)(ArgumentTypes...), ArgumentTypes&&... ArgumentValues) const
 {
     void* ReplacingFunctionAddress = methodToMockMap.find(typeid(OriginalMethodAddress).name())->second;
 
@@ -87,9 +87,8 @@ struct SimpleMockHelper::MethodTraits<RetType(ClassType::*)(Args...)> {
     using classType = ClassType;
     using returnType = RetType;
     using argumentTuple = std::tuple<Args...>;
-    using argumentDecay = std::decay_t<argumentTuple>;
     static constexpr bool isConst = false;
-    static constexpr bool hasArguments = std::tuple_size_v<argumentTuple> > 0;
+    static constexpr bool hasArguments = sizeof...(Args) > 0;
 };
 
 template <typename ClassType, typename RetType, typename... Args>
@@ -97,9 +96,8 @@ struct SimpleMockHelper::MethodTraits<RetType(ClassType::*)(Args...) const> {
     using classType = ClassType;
     using returnType = RetType;
     using argumentTuple = std::tuple<Args...>;
-    using argumentDecay = std::decay_t<argumentTuple>;
     static constexpr bool isConst = true;
-    static constexpr bool hasArguments = std::tuple_size_v<argumentTuple> > 0;
+    static constexpr bool hasArguments = sizeof...(Args) > 0;
 };
 
 namespace MockedGlobal
