@@ -64,7 +64,7 @@ inline ReturnType SimpleMockHelper::ExecuteMockMethodWithArguments(ReturnType (C
 
     std::function<ReturnType(ArgumentTypes...)>* ReplacingFunctionPointer = static_cast<std::function<ReturnType(ArgumentTypes...)>*>(ReplacingFunctionAddress);
 
-    return (*ReplacingFunctionPointer)(std::forward<ArgumentTypes>(ArgumentValues)...);
+    return (*ReplacingFunctionPointer)(ArgumentValues...);
 }
 
 template <typename MethodPointer, typename... ArgumentTypes>

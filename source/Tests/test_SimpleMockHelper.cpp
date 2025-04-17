@@ -47,11 +47,11 @@ public:
         return 0;
     }
 
-    // std::string BranchNames(int leaf)
-    // {
-    //     SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(&ClassName::BranchNames, leaf)
-    //     return "A Branch Name";
-    // }  
+    std::string BranchNames(int leaf)
+    {
+        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(&ClassName::BranchNames, leaf)
+        return "A Branch Name";
+    }  
 };
 
 
@@ -161,10 +161,10 @@ TEST(GlobalMockerDifferentSignaturesSecondTryTest, CheckOriginalOutputMock)
 
     EXPECT_TRUE(something.TreeBranch(std::string("RockyLeaf"), 3) == 5);
 
-    // int captureWith2 = 2;
-    // std::function<std::string(int)> MockedBranchNamesFunction = std::function<std::string(int)> ([captureWith2](int) -> std::string {std::cout << captureWith2 << std::endl; return std::string("AnotherBranchName");});
+    int captureWith2 = 2;
+    std::function<std::string(int)> MockedBranchNamesFunction = std::function<std::string(int)> ([captureWith2](int) -> std::string {std::cout << captureWith2 << std::endl; return std::string("AnotherBranchName");});
     
-    // aGlobalMockerHelper->RegisterMock(&MockedBranchNamesFunction, &ClassName::BranchNames);
+    aGlobalMockerHelper->RegisterMock(&MockedBranchNamesFunction, &ClassName::BranchNames);
 
-    // EXPECT_TRUE(something.BranchNames(2) == std::string("AnotherBranchName"));
+    EXPECT_TRUE(something.BranchNames(2) == std::string("AnotherBranchName"));
 }
