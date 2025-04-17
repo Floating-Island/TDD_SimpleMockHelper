@@ -62,7 +62,7 @@ inline ReturnType SimpleMockHelper::ExecuteMockMethodWithArguments(ReturnType (C
 {
     void* ReplacingFunctionAddress = methodToMockMap.find(typeid(OriginalMethodAddress).name())->second;
 
-    std::function<ReturnType(std::decay_t<ArgumentTypes>...)>* ReplacingFunctionPointer = static_cast<std::function<ReturnType(std::decay_t<ArgumentTypes>...)>*>(ReplacingFunctionAddress);
+    std::function<ReturnType(ArgumentTypes...)>* ReplacingFunctionPointer = static_cast<std::function<ReturnType(ArgumentTypes...)>*>(ReplacingFunctionAddress);
 
     return (*ReplacingFunctionPointer)(std::forward<ArgumentTypes>(ArgumentValues)...);
 }
