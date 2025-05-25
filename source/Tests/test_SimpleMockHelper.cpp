@@ -18,6 +18,11 @@ public:
     }
 
     std::string ClassNameName() const{
+        /**
+         * This method is const, so this needs to be used to disambiguate the pointer.
+         */
+        std::string (ClassName::*constMethodPointer) () const = &ClassName::ClassNameName;
+        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(constMethodPointer)
         return std::string(typeid(*this).name());
     }
     
@@ -184,6 +189,8 @@ TEST(GlobalMockerDifferentSignaturesTest, CheckConstMethodCallMock)
     
     std::string (ClassName::*constMethodPointer) () const = &ClassName::ClassNameName;
     aGlobalMockerHelper->RegisterMock(&MockedConstMethodCallFunction, constMethodPointer);
+
+    cout << "const ClassName something name is: " << something.ClassNameName() << std::endl;
 
     EXPECT_TRUE(something.ClassNameName() == std::string("Calls the const version!"));
 }
