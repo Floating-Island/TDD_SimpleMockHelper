@@ -15,9 +15,15 @@ class SimpleMockHelper
 public:
     SimpleMockHelper();
     
-    //you should use this only in tests
+    // Register mock function overloads:
+
+    // Non-const method version
     template<typename ReturnType, typename ClassType, typename... ArgumentTypes>
     void RegisterMock(std::function<ReturnType(ArgumentTypes...)>* ReplacingFunctionAddress, ReturnType (ClassType::*OriginalMethodAddress) (ArgumentTypes...));
+
+    // Const method version
+    template<typename ReturnType, typename ClassType, typename... ArgumentTypes>
+    void RegisterMock(std::function<ReturnType(ArgumentTypes...)>* ReplacingFunctionAddress, ReturnType (ClassType::*OriginalMethodAddress) (ArgumentTypes...) const);
     
     bool ContainsMethodToMock(std::string OriginalMethod) const;
 
@@ -52,6 +58,12 @@ private:
 
 template<typename ReturnType, typename ClassType, typename... ArgumentTypes>
 void SimpleMockHelper::RegisterMock(std::function<ReturnType(ArgumentTypes...)>* ReplacingFunctionAddress, ReturnType (ClassType::*OriginalMethodAddress) (ArgumentTypes...))
+{
+    methodToMockMap.insert({typeid(OriginalMethodAddress).name(), ReplacingFunctionAddress});
+}
+
+template<typename ReturnType, typename ClassType, typename... ArgumentTypes>
+void SimpleMockHelper::RegisterMock(std::function<ReturnType(ArgumentTypes...)>* ReplacingFunctionAddress, ReturnType (ClassType::*OriginalMethodAddress) (ArgumentTypes...) const)
 {
     methodToMockMap.insert({typeid(OriginalMethodAddress).name(), ReplacingFunctionAddress});
 }
