@@ -59,18 +59,21 @@ private:
 template<typename ReturnType, typename ClassType, typename... ArgumentTypes>
 void SimpleMockHelper::RegisterMock(std::function<ReturnType(ArgumentTypes...)>* ReplacingFunctionAddress, ReturnType (ClassType::*OriginalMethodAddress) (ArgumentTypes...))
 {
+    std::cout << "registering non-const version "<< std::endl;
     methodToMockMap.insert({typeid(OriginalMethodAddress).name(), ReplacingFunctionAddress});
 }
 
 template<typename ReturnType, typename ClassType, typename... ArgumentTypes>
 void SimpleMockHelper::RegisterMock(std::function<ReturnType(ArgumentTypes...)>* ReplacingFunctionAddress, ReturnType (ClassType::*OriginalMethodAddress) (ArgumentTypes...) const)
 {
+    std::cout << "registering const version "<< std::endl;
     methodToMockMap.insert({typeid(OriginalMethodAddress).name(), ReplacingFunctionAddress});
 }
 
 template <typename ReturnType, typename ClassType>
 inline ReturnType SimpleMockHelper::ExecuteMockMethod(ReturnType (ClassType::*OriginalMethodAddress)()) const
 {
+    std::cout << "executing non-const version without arguments"<< std::endl;
     std::any ReplacingFunctionAddress = methodToMockMap.find(typeid(OriginalMethodAddress).name())->second;
 
     std::function<ReturnType()>* ReplacingFunctionPointer = std::any_cast<std::function<ReturnType()>*>(ReplacingFunctionAddress);
@@ -81,6 +84,7 @@ inline ReturnType SimpleMockHelper::ExecuteMockMethod(ReturnType (ClassType::*Or
 template <typename ReturnType, typename ClassType>
 inline ReturnType SimpleMockHelper::ExecuteMockMethod(ReturnType (ClassType::*OriginalMethodAddress)() const) const
 {
+    std::cout << "executing const version without arguments"<< std::endl;
     std::any ReplacingFunctionAddress = methodToMockMap.find(typeid(OriginalMethodAddress).name())->second;
 
     std::function<ReturnType()>* ReplacingFunctionPointer = std::any_cast<std::function<ReturnType()>*>(ReplacingFunctionAddress);
@@ -91,6 +95,7 @@ inline ReturnType SimpleMockHelper::ExecuteMockMethod(ReturnType (ClassType::*Or
 template <typename ReturnType, typename ClassType, typename... ArgumentTypes>
 inline ReturnType SimpleMockHelper::ExecuteMockMethodWithArguments(ReturnType (ClassType::*OriginalMethodAddress) (ArgumentTypes...), ArgumentTypes&&... ArgumentValues) const
 {
+    std::cout << "executing non-const version with arguments"<< std::endl;
     std::any ReplacingFunctionAddress = methodToMockMap.find(typeid(OriginalMethodAddress).name())->second;
 
     std::function<ReturnType(ArgumentTypes...)>* ReplacingFunctionPointer = std::any_cast<std::function<ReturnType(ArgumentTypes...)>*>(ReplacingFunctionAddress);
@@ -101,6 +106,7 @@ inline ReturnType SimpleMockHelper::ExecuteMockMethodWithArguments(ReturnType (C
 template <typename ReturnType, typename ClassType, typename... ArgumentTypes>
 inline ReturnType SimpleMockHelper::ExecuteMockMethodWithArguments(ReturnType (ClassType::*OriginalMethodAddress) (ArgumentTypes...) const, ArgumentTypes&&... ArgumentValues) const
 {
+    std::cout << "executing const version with arguments"<< std::endl;
     std::any ReplacingFunctionAddress = methodToMockMap.find(typeid(OriginalMethodAddress).name())->second;
 
     std::function<ReturnType(ArgumentTypes...)>* ReplacingFunctionPointer = std::any_cast<std::function<ReturnType(ArgumentTypes...)>*>(ReplacingFunctionAddress);
