@@ -55,7 +55,7 @@ inline ReturnType SimpleMockHelper::ExecuteMockMethod(ReturnType (ClassType::*Or
 
     std::function<ReturnType()>* ReplacingFunctionPointer = std::any_cast<std::function<ReturnType()>*>(ReplacingFunctionAddress);
 
-    return std::invoke(std::forward<std::function<ReturnType()>>(ReplacingFunctionPointer));
+    return std::invoke(*ReplacingFunctionPointer);
 }
 
 template <typename ReturnType, typename ClassType, typename... ArgumentTypes>
@@ -65,7 +65,7 @@ inline ReturnType SimpleMockHelper::ExecuteMockMethodWithArguments(ReturnType (C
 
     std::function<ReturnType(ArgumentTypes...)>* ReplacingFunctionPointer = std::any_cast<std::function<ReturnType(ArgumentTypes...)>*>(ReplacingFunctionAddress);
 
-    return std::invoke(std::forward<std::function<ReturnType(ArgumentTypes...)>>(ReplacingFunctionPointer), std::forward<ArgumentTypes>(ArgumentValues)...);
+    return std::invoke(*ReplacingFunctionPointer, std::forward<ArgumentTypes>(ArgumentValues)...);
 }
 
 template <typename MethodPointer, typename... ArgumentTypes>
