@@ -182,7 +182,8 @@ TEST(GlobalMockerDifferentSignaturesTest, CheckConstMethodCallMock)
     
     std::function<std::string()> MockedConstMethodCallFunction = std::function<std::string()> ([]() -> std::string {return std::string("Calls the const version!");});
     
-    aGlobalMockerHelper->RegisterMock(&MockedConstMethodCallFunction, &ClassName::ClassNameName);
+    std::string (ClassName::*constMethodPointer) () const = &ClassName::ClassNameName;
+    aGlobalMockerHelper->RegisterMock(&MockedConstMethodCallFunction, constMethodPointer);
 
     EXPECT_TRUE(something.ClassNameName() == std::string("Calls the const version!"));
 }
