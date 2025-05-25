@@ -22,7 +22,7 @@ public:
          * This method is const, so this needs to be used to disambiguate the pointer.
          */
         std::string (ClassName::*constMethodPointer) () const = &ClassName::ClassNameName;
-        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(&ClassName::ClassNameName)
+        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(constMethodPointer)
         return std::string(typeid(*this).name());
     }
     
