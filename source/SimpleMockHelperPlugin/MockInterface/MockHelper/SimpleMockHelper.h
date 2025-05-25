@@ -53,7 +53,7 @@ inline ReturnType SimpleMockHelper::ExecuteMockMethod(ReturnType (ClassType::*Or
 {
     std::any ReplacingFunctionAddress = methodToMockMap.find(typeid(OriginalMethodAddress).name())->second;
 
-    std::function<ReturnType()>* ReplacingFunctionPointer = any_cast<std::function<ReturnType()>*>(ReplacingFunctionAddress);
+    std::function<ReturnType()>* ReplacingFunctionPointer = std::any_cast<std::function<ReturnType()>*>(ReplacingFunctionAddress);
 
     return (*ReplacingFunctionPointer)();
 }
@@ -63,7 +63,7 @@ inline ReturnType SimpleMockHelper::ExecuteMockMethodWithArguments(ReturnType (C
 {
     void* ReplacingFunctionAddress = methodToMockMap.find(typeid(OriginalMethodAddress).name())->second;
 
-    std::function<ReturnType(ArgumentTypes...)>* ReplacingFunctionPointer = any_cast<std::function<ReturnType(ArgumentTypes...)>*>(ReplacingFunctionAddress);
+    std::function<ReturnType(ArgumentTypes...)>* ReplacingFunctionPointer = std::any_cast<std::function<ReturnType(ArgumentTypes...)>*>(ReplacingFunctionAddress);
 
     return (*ReplacingFunctionPointer)(ArgumentValues...);
 }
