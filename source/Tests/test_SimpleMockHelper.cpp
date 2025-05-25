@@ -16,6 +16,10 @@ public:
     std::string ClassNameName(){
         return std::string(typeid(*this).name());
     }
+
+    std::string ClassNameName() const{
+        return std::string(typeid(*this).name());
+    }
     
     std::string ClassMethodName()
     {
@@ -167,4 +171,18 @@ TEST(GlobalMockerDifferentSignaturesSecondTryTest, CheckOriginalOutputMock)
     aGlobalMockerHelper->RegisterMock(&MockedBranchNamesFunction, &ClassName::BranchNames);
 
     EXPECT_TRUE(something.BranchNames(2) == std::string("AnotherBranchName"));
+}
+
+TEST(GlobalMockerDifferentSignaturesTest, CheckConstMethodCallMock)
+{
+    const ClassName something = ClassName();
+
+    std::shared_ptr<SimpleMockHelper> aGlobalMockerHelper = std::make_shared<SimpleMockHelper>();
+    SimpleMockHelperInterface::SetGlobalMockHelper(aGlobalMockerHelper);
+    
+    std::function<std::string()> MockedConstMethodCallFunction = std::function<std::string()> ([]() -> std::string {return std::string("Calls the const version!");});
+    
+    aGlobalMockerHelper->RegisterMock(&MockedConstMethodCallFunction, &ClassName::ClassNameName);
+
+    EXPECT_TRUE(something.ClassNameName() == std::string("Calls the const version!"));
 }
