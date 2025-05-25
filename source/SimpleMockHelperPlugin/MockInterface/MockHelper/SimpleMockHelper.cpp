@@ -9,7 +9,7 @@ namespace MockedGlobal
 
 SimpleMockHelper::SimpleMockHelper()
 {
-    methodToMockMap = std::map<std::string, void*>();
+    methodToMockMap = std::map<std::string, std::any>();
 }
 
 bool SimpleMockHelper::ContainsMethodToMock(std::string OriginalMethod) const

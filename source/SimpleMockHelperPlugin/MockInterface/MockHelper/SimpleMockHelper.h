@@ -4,6 +4,7 @@
 #include <memory>
 #include <typeinfo>
 #include <tuple>
+#include <any>
 
 //put here your #if TEST_FLAG
 
@@ -27,7 +28,7 @@ public:
     struct MethodTraits;
     
 private:
-    std::map<std::string, void*> methodToMockMap;
+    std::map<std::string, std::any> methodToMockMap;
 
     // Method type overloading:
 
@@ -50,9 +51,9 @@ void SimpleMockHelper::RegisterMock(std::function<ReturnType(ArgumentTypes...)>*
 template <typename ReturnType, typename ClassType>
 inline ReturnType SimpleMockHelper::ExecuteMockMethod(ReturnType (ClassType::*OriginalMethodAddress)()) const
 {
-    void* ReplacingFunctionAddress = methodToMockMap.find(typeid(OriginalMethodAddress).name())->second;
+    std::any ReplacingFunctionAddress = methodToMockMap.find(typeid(OriginalMethodAddress).name())->second;
 
-    std::function<ReturnType()>* ReplacingFunctionPointer = static_cast<std::function<ReturnType()>*>(ReplacingFunctionAddress);
+    std::function<ReturnType()>* ReplacingFunctionPointer = any_cast<std::function<ReturnType()>*>(ReplacingFunctionAddress);
 
     return (*ReplacingFunctionPointer)();
 }
@@ -62,7 +63,7 @@ inline ReturnType SimpleMockHelper::ExecuteMockMethodWithArguments(ReturnType (C
 {
     void* ReplacingFunctionAddress = methodToMockMap.find(typeid(OriginalMethodAddress).name())->second;
 
-    std::function<ReturnType(ArgumentTypes...)>* ReplacingFunctionPointer = static_cast<std::function<ReturnType(ArgumentTypes...)>*>(ReplacingFunctionAddress);
+    std::function<ReturnType(ArgumentTypes...)>* ReplacingFunctionPointer = any_cast<std::function<ReturnType(ArgumentTypes...)>*>(ReplacingFunctionAddress);
 
     return (*ReplacingFunctionPointer)(ArgumentValues...);
 }
