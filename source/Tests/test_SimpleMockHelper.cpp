@@ -18,11 +18,7 @@ public:
     }
 
     std::string ClassNameName() const{
-        /**
-         * This method is const, so this needs to be used to disambiguate the pointer.
-         */
-        std::string (ClassName::*constMethodPointer) () const = &ClassName::ClassNameName;
-        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(constMethodPointer)
+        SIMPLEMOCKING_GLOBAL_EXECUTEMOCKED(&ClassName::ClassNameName)
         return std::string(typeid(*this).name());
     }
     
