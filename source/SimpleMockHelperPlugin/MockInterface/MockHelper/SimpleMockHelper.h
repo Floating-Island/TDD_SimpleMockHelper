@@ -61,7 +61,7 @@ inline ReturnType SimpleMockHelper::ExecuteMockMethod(ReturnType (ClassType::*Or
 template <typename ReturnType, typename ClassType, typename... ArgumentTypes>
 inline ReturnType SimpleMockHelper::ExecuteMockMethodWithArguments(ReturnType (ClassType::*OriginalMethodAddress) (ArgumentTypes...), ArgumentTypes&&... ArgumentValues) const
 {
-    void* ReplacingFunctionAddress = methodToMockMap.find(typeid(OriginalMethodAddress).name())->second;
+    std::any ReplacingFunctionAddress = methodToMockMap.find(typeid(OriginalMethodAddress).name())->second;
 
     std::function<ReturnType(ArgumentTypes...)>* ReplacingFunctionPointer = std::any_cast<std::function<ReturnType(ArgumentTypes...)>*>(ReplacingFunctionAddress);
 
